@@ -1,0 +1,2409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#020210" />
+<meta name="color-scheme" content="dark" />
+<title>The Dreamjourney Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000003;
+    --gold:#e8c98a;
+    --cream:#f6eee6;
+    --moon:#e7ddf2;
+    --muted:#9c93b4;
+    --faint:#6b6486;
+    --card:rgba(255,255,255,.04);
+    --card-hi:rgba(255,255,255,.07);
+    --edge:rgba(255,255,255,.09);
+    --edge-soft:rgba(255,255,255,.06);
+
+    --c-start:#e8c98a;
+    --c-bots:#7aa6ff;
+    --c-tips:#f2a0c4;
+    --c-lore:#bb8af0;
+    --c-dream:#ffb46b;
+    --c-faq:#74e0cf;
+    --c-secret:#a8e879;
+    --c-genai:#5cc8e8;
+    --c-gloss:#c3a4ee;
+    --c-discord:#9b8aff;
+
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Hanken Grotesk",-apple-system,sans-serif;
+    --hand:"Caveat",cursive;
+
+    --topnav-h:64px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--ink);color:var(--moon);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  button{font-family:inherit;cursor:pointer}
+
+  /* ===== atmosphere ===== */
+  .sky{position:fixed;inset:0;z-index:-3;
+    background:
+      radial-gradient(150% 95% at 82% -12%, rgba(110,90,235,.26), transparent 55%),
+      radial-gradient(130% 85% at 5% 112%, rgba(70,110,240,.24), transparent 55%),
+      linear-gradient(180deg,#000002 0%,#020210 48%,#06031c 100%);}
+  .stars{position:fixed;inset:0;z-index:-2;pointer-events:none}
+  .star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d,4s) ease-in-out infinite var(--delay,0s)}
+  @keyframes tw{0%,100%{opacity:.12;transform:scale(.7)}50%{opacity:.9;transform:scale(1.15)}}
+  .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ===== top navigation ===== */
+  .topnav{position:sticky;top:0;z-index:50;height:var(--topnav-h);
+    display:flex;align-items:center;gap:18px;padding:0 clamp(18px,3vw,32px);
+    padding-left:max(clamp(18px,3vw,32px), env(safe-area-inset-left));
+    padding-right:max(clamp(18px,3vw,32px), env(safe-area-inset-right));
+    background:rgba(4,3,18,.72);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--edge-soft)}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;flex:none;min-width:0}
+  .orb{width:30px;height:30px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 32% 28%,#fff,var(--c-lore) 38%,#5b3aa0 100%);
+    box-shadow:0 0 18px rgba(187,138,240,.6)}
+  .brand-text{min-width:0;display:flex;flex-direction:column;line-height:1.1}
+  .brand-text b{font-family:var(--serif);font-weight:500;font-size:1rem;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand-text span{font-family:var(--hand);font-size:.95rem;color:var(--c-tips);margin-top:-2px;white-space:nowrap}
+
+  .topnav-links{display:flex;align-items:center;gap:2px;margin-left:auto;flex:1;justify-content:flex-end;overflow:hidden}
+  .topnav-links a{display:inline-flex;align-items:center;text-decoration:none;color:var(--muted);
+    font-size:.88rem;font-weight:500;padding:8px 14px;border-radius:9px;transition:color .2s,background .2s;white-space:nowrap}
+  .topnav-links a:hover{color:var(--cream);background:rgba(255,255,255,.04)}
+  .topnav-links a.active{color:var(--cream);background:rgba(255,255,255,.07)}
+  .topnav-links a.active::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--c, var(--c-lore));box-shadow:0 0 8px var(--c, var(--c-lore));margin-right:8px}
+
+  .search-btn{display:inline-flex;align-items:center;gap:10px;padding:8px 12px 8px 12px;
+    background:rgba(255,255,255,.04);border:1px solid var(--edge);border-radius:9px;
+    color:var(--muted);font-size:.85rem;transition:border-color .2s,color .2s;flex:none}
+  .search-btn:hover{border-color:var(--c-lore);color:var(--cream)}
+  .search-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+  .search-btn kbd{font-family:var(--sans);font-size:.7rem;padding:2px 6px;border-radius:4px;
+    background:rgba(255,255,255,.06);border:1px solid var(--edge-soft);color:var(--faint)}
+
+  .burger{display:none;background:none;border:none;padding:8px;color:var(--cream);flex:none}
+  .burger svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+  /* ===== mobile drawer ===== */
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;
+    transition:opacity .25s;z-index:60}
+  body.nav-open .backdrop{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;height:100vh;width:min(320px,86vw);z-index:70;
+    background:linear-gradient(180deg,rgba(10,8,28,.98),rgba(4,3,18,.98));backdrop-filter:blur(14px);
+    border-left:1px solid var(--edge-soft);padding:22px 18px;
+    transform:translateX(100%);transition:transform .3s ease;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+  body.nav-open .drawer{transform:translateX(0)}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .drawer-head .close{background:none;border:none;color:var(--muted);padding:6px}
+  .drawer-head .close svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+  .drawer a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;
+    text-decoration:none;color:var(--moon);font-size:.95rem;font-weight:500;transition:background .2s}
+  .drawer a:hover{background:rgba(255,255,255,.04)}
+  .drawer a.active{background:rgba(255,255,255,.07);color:var(--cream)}
+  .drawer a .dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c, var(--c-lore));box-shadow:0 0 8px var(--c, var(--c-lore))}
+  .drawer-foot{margin-top:auto;padding-top:20px;border-top:1px solid var(--edge-soft);
+    font-family:var(--hand);font-size:1.05rem;color:var(--muted);line-height:1.3;text-align:center}
+  .drawer-foot .heart{color:var(--c-tips)}
+
+  /* ===== search modal ===== */
+  .search-modal{position:fixed;inset:0;z-index:80;display:none;
+    background:rgba(2,2,12,.7);backdrop-filter:blur(6px);
+    align-items:flex-start;justify-content:center;padding:80px 20px 20px}
+  .search-modal.open{display:flex;animation:fade .18s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .search-card{width:100%;max-width:580px;background:linear-gradient(180deg,#100c26,#080620);
+    border:1px solid var(--edge);border-radius:16px;overflow:hidden;
+    box-shadow:0 40px 80px rgba(0,0,0,.5)}
+  .search-input-wrap{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--edge-soft)}
+  .search-input-wrap svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;flex:none}
+  .search-input-wrap input{flex:1;background:none;border:none;outline:none;color:var(--cream);
+    font-family:var(--sans);font-size:1.02rem}
+  .search-input-wrap input::placeholder{color:var(--faint)}
+  .search-input-wrap .esc{font-family:var(--sans);font-size:.72rem;padding:3px 8px;border-radius:5px;
+    background:rgba(255,255,255,.05);border:1px solid var(--edge-soft);color:var(--faint)}
+  .search-results{max-height:55vh;overflow-y:auto;padding:8px}
+  .search-results a{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:10px;
+    text-decoration:none;color:var(--moon);font-size:.94rem;transition:background .2s}
+  .search-results a:hover, .search-results a.cursor{background:rgba(255,255,255,.05)}
+  .search-results .res-dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--c, var(--c-lore));box-shadow:0 0 8px var(--c, var(--c-lore))}
+  .search-results .res-section{margin-left:auto;font-size:.78rem;color:var(--faint);white-space:nowrap}
+  .search-results .empty{padding:24px;text-align:center;color:var(--faint);font-style:italic}
+
+  /* ===== main / views ===== */
+  main{min-height:calc(100vh - var(--topnav-h));padding:0 clamp(20px,5vw,72px) 80px;max-width:1080px;margin:0 auto;position:relative}
+  .view{display:none;animation:viewIn .45s cubic-bezier(.2,.7,.2,1)}
+  .view.active{display:block}
+  @keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  /* ===== home view ===== */
+  .welcome{padding:clamp(56px,10vh,110px) 0 16px;max-width:740px}
+  .hi{font-family:var(--hand);font-size:1.7rem;color:var(--c-tips);transform:rotate(-2deg);display:inline-block;margin-bottom:6px}
+  .welcome h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.3rem,5.8vw,3.9rem);line-height:1.04;
+    letter-spacing:-.02em;color:var(--cream);margin-bottom:22px}
+  .welcome h1 em{font-style:italic;background:linear-gradient(110deg,#a9c4ff,var(--c-lore) 55%,#d6c4ff);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .welcome p{font-size:1.1rem;color:var(--moon);max-width:620px}
+  .welcome p .soft{color:var(--muted)}
+  .stickynote{display:inline-flex;align-items:center;gap:14px;margin-top:32px;padding:16px 22px;border-radius:4px;
+    background:linear-gradient(180deg,rgba(242,160,196,.16),rgba(242,160,196,.08));
+    border:1px solid rgba(242,160,196,.25);transform:rotate(-1.4deg);position:relative;
+    font-family:var(--hand);font-size:1.32rem;color:var(--cream);text-decoration:none}
+  .stickynote::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(3deg);
+    width:60px;height:18px;background:rgba(255,255,255,.14);border-radius:2px}
+  .stickynote em{font-style:normal;color:var(--c-tips);text-decoration:underline;text-decoration-color:rgba(242,160,196,.4);text-underline-offset:3px}
+  .stickynote .arrow{width:38px;height:24px;stroke:var(--c-tips);fill:none;stroke-width:2;stroke-linecap:round}
+
+  .seclabel{display:flex;align-items:baseline;gap:14px;margin:72px 0 26px;flex-wrap:wrap}
+  .seclabel h2{font-family:var(--serif);font-weight:400;font-size:1.85rem;color:var(--cream);letter-spacing:-.01em}
+  .seclabel .scrawl{font-family:var(--hand);font-size:1.35rem;color:var(--muted)}
+  .seclabel .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent);min-width:60px;align-self:center}
+
+  .portals{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:16px}
+  .portal{position:relative;display:flex;flex-direction:column;text-decoration:none;
+    padding:24px 22px 22px;border-radius:14px;background:var(--card);border:1px solid var(--edge);
+    overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,background .3s}
+  .portal::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--c)}
+  .portal:hover{transform:translateY(-4px);border-color:var(--c);background:var(--card-hi)}
+  .portal .lab{display:inline-flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:500;
+    font-size:1.5rem;letter-spacing:-.01em;text-transform:none;color:var(--cream);margin-bottom:2px;line-height:1.15}
+  .portal .lab .pin{width:9px;height:9px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);flex:none}
+  .portal h3{font-family:var(--hand);font-weight:500;font-size:1.2rem;color:var(--c);margin-bottom:12px;letter-spacing:0;line-height:1.25}
+  .portal p{font-size:.92rem;color:var(--muted);line-height:1.55;flex:1}
+  .portal .count{margin-top:16px;font-size:.78rem;color:var(--faint);display:flex;align-items:center;gap:6px}
+  .portal .count::after{content:"→";color:var(--c);transition:transform .3s}
+  .portal:hover .count::after{transform:translateX(4px)}
+
+  .fresh{display:flex;flex-direction:column;gap:2px;max-width:740px}
+  .fresh a{display:flex;align-items:center;gap:14px;text-decoration:none;padding:15px 16px;border-radius:11px;
+    transition:background .25s;border:1px solid transparent}
+  .fresh a:hover{background:rgba(255,255,255,.04);border-color:var(--edge-soft)}
+  .fresh .dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c);box-shadow:0 0 8px var(--c)}
+  .fresh .ftitle{font-size:1rem;color:var(--cream);font-weight:500}
+  .fresh .fmeta{margin-left:auto;font-size:.82rem;color:var(--faint);white-space:nowrap}
+  .fresh .new{font-family:var(--hand);font-size:1.15rem;color:var(--c-tips);transform:rotate(-4deg)}
+
+  .guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;max-width:780px}
+  .guide{display:flex;gap:18px;padding:24px;border-radius:16px;background:var(--card);border:1px solid var(--edge)}
+  .avatar{flex:none;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
+    font-family:var(--serif);font-size:1.5rem;font-weight:600;color:#160e22}
+  .av-e{background:radial-gradient(circle at 35% 30%,#ffd0e0,var(--c-tips) 70%)}
+  .av-c{background:radial-gradient(circle at 35% 30%,#d8c4ff,var(--c-lore) 70%)}
+  .guide h4{font-family:var(--serif);font-weight:500;font-size:1.2rem;color:var(--cream)}
+  .guide .sig{font-family:var(--hand);font-size:1.05rem;color:var(--gold);margin-bottom:8px}
+  .guide p{font-size:.9rem;color:var(--muted)}
+
+  /* ===== section view ===== */
+  .breadcrumb{padding:24px 0 0;font-size:.85rem;color:var(--faint);display:flex;align-items:center;gap:8px}
+  .breadcrumb a{color:var(--muted);text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--cream)}
+  .breadcrumb .sep{color:var(--faint);opacity:.5}
+  .breadcrumb .here{color:var(--cream)}
+
+  .view-header{padding:24px 0 26px;max-width:820px}
+  .view-header .eyebrow{font-family:var(--hand);font-size:1.3rem;color:var(--c, var(--c-lore));margin-bottom:4px;display:inline-block}
+  .view-header h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.05;
+    letter-spacing:-.02em;color:var(--cream);margin-bottom:14px}
+  .view-header h1 em{font-style:italic;color:var(--c, var(--c-lore))}
+  .view-header .intro{font-size:1.05rem;color:var(--moon);max-width:640px;line-height:1.65}
+  .view-header .intro .soft{color:var(--muted)}
+
+  /* ===== chapter tabs ===== */
+  .tabs{position:sticky;top:var(--topnav-h);z-index:30;display:flex;gap:4px;overflow-x:auto;
+    margin:0 -10px 22px;padding:10px 10px;
+    background:rgba(4,3,18,.78);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--edge-soft);
+    scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{flex:none;background:none;border:none;padding:9px 14px;border-radius:9px;
+    color:var(--muted);font-size:.88rem;font-weight:500;transition:color .2s,background .2s;white-space:nowrap;position:relative}
+  .tabs button:hover{color:var(--cream);background:rgba(255,255,255,.04)}
+  .tabs button.active{color:var(--cream);background:rgba(255,255,255,.07)}
+  .tabs button.active::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;
+    background:var(--c, var(--c-lore));border-radius:2px}
+
+  /* ===== chapter content ===== */
+  .chapter{display:none;padding:8px 0 0;max-width:780px;animation:chapterIn .35s cubic-bezier(.2,.7,.2,1)}
+  .chapter.active{display:block}
+  @keyframes chapterIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .chapter > p{color:var(--moon);font-size:1rem;line-height:1.75;margin-bottom:16px}
+  .chapter > p .soft{color:var(--muted)}
+  .chapter p strong, .chapter li strong{color:var(--cream);font-weight:600}
+  .chapter h3{font-family:var(--serif);font-weight:500;font-size:1.4rem;color:var(--cream);
+    margin:46px 0 14px;letter-spacing:-.005em}
+  .chapter h3:first-child, .chapter > p:first-child + h3{margin-top:14px}
+  .chapter h3 .accent{font-family:var(--hand);font-size:1.05rem;color:var(--c, var(--c-lore));margin-left:8px;font-weight:400}
+  .chapter h4{font-family:var(--sans);font-weight:600;font-size:.95rem;color:var(--cream);
+    letter-spacing:.04em;text-transform:uppercase;margin:26px 0 8px}
+
+  .chapter ul{margin:6px 0 22px;padding-left:0;list-style:none}
+  .chapter ul li{position:relative;padding:6px 0 6px 22px;color:var(--moon);line-height:1.65}
+  .chapter ul li::before{content:"✦";position:absolute;left:2px;top:7px;color:var(--c, var(--c-lore));font-size:.78rem;opacity:.75}
+  .chapter ul.dashed li::before{content:"—";font-family:var(--serif);font-style:italic;font-size:1rem;top:4px}
+
+  /* callout — left-rule annotation, no box */
+  .callout{margin:30px 0;padding:2px 0 2px 22px;border:none;background:none;position:relative}
+  .callout::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:3px;background:var(--c)}
+  .callout .clab{font-family:var(--hand);font-size:1.22rem;color:var(--c);margin-bottom:4px;display:block;line-height:1.2}
+  .callout p{color:var(--moon);line-height:1.65;margin-bottom:10px}
+  .callout p:last-child{margin-bottom:0}
+  .callout ul{margin:8px 0 0}
+  .callout + .callout{margin-top:18px}
+
+  /* heads-up — the ONE true box, used sparingly for genuine attention */
+  .heads-up{margin:34px 0;padding:16px 22px 18px 24px;border-radius:8px;position:relative;
+    background:linear-gradient(180deg,rgba(242,160,196,.07),rgba(242,160,196,.02));
+    border:1px solid rgba(242,160,196,.18)}
+  .heads-up::before{content:"";position:absolute;top:-8px;left:24px;width:44px;height:12px;
+    background:rgba(255,255,255,.1);border-radius:2px}
+  .heads-up .label{font-family:var(--hand);font-size:1.3rem;color:var(--c-tips);display:block;margin-bottom:4px;line-height:1.2}
+  .heads-up p{margin-bottom:10px}
+  .heads-up p:last-child{margin-bottom:0}
+
+  /* example — left-rule annotation, no box (label color matches the rule) */
+  .example{margin:22px 0;padding:2px 0 2px 22px;border:none;background:none;position:relative}
+  .example::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:3px;background:var(--gold);opacity:.7}
+  .example:has(.elab.good)::before{background:#9bebd9}
+  .example:has(.elab.bad)::before{background:#f5b6d0}
+  .example + .example{margin-top:14px}
+  .example .elab{display:block;font-family:var(--sans);font-weight:700;font-size:.66rem;text-transform:uppercase;
+    letter-spacing:.18em;margin-bottom:8px;color:var(--gold);background:none;border:none;padding:0}
+  .example .elab.good{color:#9bebd9;background:none;border:none}
+  .example .elab.bad{color:#f5b6d0;background:none;border:none}
+  .example .elab.ex{color:var(--gold);background:none;border:none}
+  .example .etext{font-family:var(--serif);font-style:italic;color:var(--cream);font-size:1.02rem;line-height:1.55}
+  .example .ecode{font-family:ui-monospace,SF Mono,Consolas,monospace;font-size:.84rem;color:var(--moon);
+    background:rgba(0,0,0,.22);padding:11px 14px;border-radius:8px;display:block;white-space:pre-wrap;line-height:1.6}
+
+  /* good/bad two-up — two left-rule annotations side by side */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:24px 0 28px}
+  .compare > *{margin-top:0;margin-bottom:0}
+  @media(max-width:640px){.compare{grid-template-columns:1fr;gap:18px}}
+
+  /* details (expandable peek) — expandable inline link, no container */
+  .peek{margin:22px 0;border:none;background:none;border-radius:0;overflow:visible}
+  .peek + .peek{margin-top:4px}
+  .peek summary{padding:10px 0 10px 34px;cursor:pointer;font-family:var(--sans);font-weight:600;color:var(--cream);
+    display:flex;align-items:center;gap:12px;list-style:none;font-size:.97rem;position:relative;transition:color .2s}
+  .peek summary::-webkit-details-marker{display:none}
+  .peek summary::before{content:"+";font-family:var(--serif);font-size:1.15rem;color:var(--c);
+    width:22px;height:22px;display:grid;place-items:center;border-radius:5px;border:1px solid var(--c);
+    transition:background .25s, color .25s;line-height:1;
+    position:absolute;left:0;top:50%;transform:translateY(-50%)}
+  .peek[open] summary::before{content:"−";background:var(--c);color:var(--ink)}
+  .peek summary:hover{color:var(--c)}
+  .peek summary .ptag{font-family:var(--hand);font-size:1.05rem;color:var(--muted);margin-left:auto;font-weight:400}
+  .peek .peek-body{padding:8px 0 6px 22px;margin:4px 0 0 10px;border-left:2px solid var(--c);opacity:.92}
+  .peek .peek-body > *:last-child{margin-bottom:0}
+  .peek .peek-body p{color:var(--moon);line-height:1.7;margin-bottom:12px}
+  .peek .peek-body ul{margin:6px 0 14px}
+
+  /* prose styles grid */
+  .prose-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;margin:16px 0}
+  .prose-card{padding:18px 20px;border-radius:13px;background:var(--card);border:1px solid var(--edge);
+    transition:border-color .25s,transform .25s}
+  .prose-card:hover{border-color:var(--c-tips);transform:translateY(-3px)}
+  .prose-card .pname{font-family:var(--serif);font-weight:500;font-size:1.1rem;color:var(--c-tips);margin-bottom:6px}
+  .prose-card .pdesc{font-size:.88rem;color:var(--muted);margin-bottom:11px;line-height:1.55}
+  .prose-card .pex{font-family:var(--serif);font-style:italic;font-size:.93rem;color:var(--cream);
+    padding-top:11px;border-top:1px dashed var(--edge-soft);line-height:1.55}
+
+  /* glossary */
+  .glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:14px 0}
+  .term{padding:16px 18px;border-radius:12px;background:var(--card);border:1px solid var(--edge);
+    border-left:3px solid var(--c-gloss)}
+  .term dt{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--cream);margin-bottom:5px}
+  .term dd{font-size:.92rem;color:var(--muted);line-height:1.55}
+
+  /* setting cards */
+  .setting{margin:14px 0;padding:18px 22px;border-radius:13px;background:var(--card);border:1px solid var(--edge);
+    border-left:3px solid var(--c-faq)}
+  .setting h4{font-family:var(--serif);font-weight:500;font-size:1.15rem;color:var(--cream);
+    text-transform:none;letter-spacing:0;margin:0 0 6px}
+  .setting h4 .num{font-family:var(--hand);font-size:1rem;color:var(--gold);margin-left:8px;font-weight:400}
+  .setting p{color:var(--muted);margin-bottom:0;line-height:1.65;font-size:.93rem}
+
+  /* prev / next chapter nav */
+  .chapter-nav{display:flex;gap:12px;margin-top:48px;padding-top:24px;border-top:1px solid var(--edge-soft)}
+  .chapter-nav a{flex:1;display:flex;flex-direction:column;gap:4px;text-decoration:none;
+    padding:14px 18px;border-radius:11px;background:var(--card);border:1px solid var(--edge);
+    transition:border-color .25s,background .25s;min-width:0}
+  .chapter-nav a:hover{border-color:var(--c, var(--c-lore));background:var(--card-hi)}
+  .chapter-nav .dir{font-size:.74rem;color:var(--faint);text-transform:uppercase;letter-spacing:.14em}
+  .chapter-nav .ttl{color:var(--cream);font-weight:500;font-size:.98rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chapter-nav .next{text-align:right}
+
+  /* footer */
+  footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--edge-soft);
+    font-size:.85rem;color:var(--faint);max-width:780px}
+  footer .heart{color:var(--c-tips)}
+
+  /* ===== CTA button (used for Discord invite) ===== */
+  .cta-wrap{margin:28px 0 8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+  .cta-btn{display:inline-flex;align-items:center;gap:12px;padding:15px 28px;border-radius:14px;
+    background:linear-gradient(135deg,var(--c-discord),#6e7be4);color:#0a0820;
+    text-decoration:none;font-weight:700;font-size:1.05rem;letter-spacing:.01em;
+    box-shadow:0 12px 30px rgba(155,138,255,.32);transition:transform .25s, box-shadow .25s}
+  .cta-btn:hover{transform:translateY(-3px);box-shadow:0 16px 38px rgba(155,138,255,.5)}
+  .cta-btn svg{width:22px;height:22px;fill:currentColor}
+  .cta-sub{font-family:var(--hand);font-size:1.1rem;color:var(--muted);margin:0}
+
+  /* ===== FAQ — section dividers inside a single chapter ===== */
+  .faq-group{font-family:var(--serif);font-weight:500;font-size:1.15rem;color:var(--cream);
+    letter-spacing:-.005em;margin:30px 0 10px;padding-bottom:8px;
+    border-bottom:1px dashed var(--edge-soft);display:flex;align-items:baseline;gap:10px}
+  .faq-group:first-of-type{margin-top:8px}
+  .faq-group .accent{font-family:var(--hand);font-size:1rem;color:var(--c-faq);font-weight:400}
+
+  /* ===== tactic mini-rules (3-up, left-rule annotation) ===== */
+  .tactic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin:24px 0 30px}
+  .tactic{padding:2px 0 2px 16px;background:none;border:none;border-left:2px solid var(--c, var(--c-secret));border-radius:0}
+  .tactic .tname{font-family:var(--hand);font-size:1.2rem;color:var(--c, var(--c-secret));margin-bottom:4px;display:block;line-height:1.15}
+  .tactic p{margin:0;font-size:.93rem;color:var(--moon);line-height:1.55}
+
+  /* ===== responsive ===== */
+  @media(max-width:1480px){
+    .topnav-links a{padding:7px 9px;font-size:.82rem}
+    .topnav-links a.active::before{margin-right:5px;width:5px;height:5px}
+  }
+  @media(max-width:1380px){
+    .topnav-links, .search-btn span, .search-btn kbd{display:none}
+    .search-btn{padding:8px;border-radius:9px}
+    .burger{display:inline-flex}
+    .brand-text span{display:none}
+    main{padding:0 20px 70px}
+  }
+  @media(max-width:640px){
+    :root{--topnav-h:56px}
+    .topnav{gap:10px;padding:0 14px}
+    .orb{width:26px;height:26px}
+    .brand-text b{font-size:.92rem}
+    .search-btn, .burger{padding:7px}
+    .search-btn svg, .burger svg{width:20px;height:20px}
+    main{padding:0 18px 60px}
+    /* tab bar — bigger taps, scroll fade hint */
+    .tabs{padding:8px 18px;margin:0 -18px 22px;position:sticky;
+      -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 24px),transparent 100%);
+              mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 24px),transparent 100%)}
+    .tabs button{padding:11px 15px;font-size:.9rem}
+    .tabs button.active::after{left:15px;right:15px}
+    /* type scale */
+    .welcome{padding:36px 0 12px}
+    .welcome h1{font-size:2.05rem;line-height:1.08;margin-bottom:16px}
+    .welcome p{font-size:1rem}
+    .seclabel{margin:46px 0 18px}
+    .seclabel h2{font-size:1.5rem}
+    .view-header{padding:18px 0 22px}
+    .view-header h1{font-size:1.95rem;margin-bottom:10px}
+    .view-header .intro{font-size:.98rem}
+    .chapter h3{font-size:1.2rem;margin:26px 0 10px}
+    /* cards & layout */
+    .portals{grid-template-columns:1fr;gap:12px}
+    .portal{padding:20px 18px 18px}
+    .stickynote{transform:none;font-size:1.06rem;padding:13px 18px;gap:10px}
+    .stickynote::before{display:none}
+    .stickynote .arrow{width:30px;height:20px}
+    .chapter-nav{flex-direction:column;gap:10px}
+    .chapter-nav .next{text-align:left}
+    .compare{grid-template-columns:1fr}
+    .heads-up{padding:16px 20px}
+    .heads-up::before{left:20px}
+    .callout{padding:14px 18px 14px 20px}
+    .example{padding:13px 16px}
+    .setting{padding:16px 18px}
+    .guide{padding:20px;gap:14px}
+    .avatar{width:50px;height:50px;font-size:1.3rem}
+    .fresh a{padding:13px 14px}
+    .fresh .new{display:none}
+    /* drawer fills more of screen */
+    .drawer{padding:18px 14px}
+    /* search modal — tighter on small screens */
+    .search-modal{padding:48px 14px 14px;align-items:stretch}
+    .search-card{max-height:calc(100vh - 62px);display:flex;flex-direction:column}
+    .search-input-wrap{padding:16px 18px}
+    .search-results{flex:1}
+    /* safe-area for iOS home indicator */
+    main{padding-bottom:calc(60px + env(safe-area-inset-bottom))}
+  }
+  /* ultra-narrow phones (iPhone SE 1st gen, older Androids) */
+  @media(max-width:400px){
+    main{padding-left:14px;padding-right:14px}
+    .topnav{padding:0 10px;gap:6px}
+    .brand-text b{font-size:.86rem;max-width:160px}
+    .welcome h1{font-size:1.85rem}
+    .view-header h1{font-size:1.75rem}
+    .seclabel h2{font-size:1.35rem}
+    .seclabel .scrawl{font-size:1.18rem}
+    .hi{font-size:1.5rem}
+    .tabs{padding:8px 14px;margin:0 -14px 18px}
+    .portal .lab{font-size:1.3rem}
+    .portal h3{font-size:1.08rem}
+    .glossary-grid{grid-template-columns:1fr}
+  }
+  /* respect prefers-reduced-motion */
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+    .star{animation:none;opacity:.5}
+  }
+</style>
+</head>
+<body>
+  <div class="sky"></div>
+  <div class="stars" id="stars"></div>
+  <div class="grain"></div>
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- ============ TOP NAV ============ -->
+  <header class="topnav">
+    <a class="brand" href="#home">
+      <span class="orb"></span>
+      <div class="brand-text">
+        <b>The Dreamjourney Guide</b>
+        <span>by Eurielle &amp; Chunley</span>
+      </div>
+    </a>
+    <nav class="topnav-links" id="topnav-links">
+      <a href="#your-persona" data-view-link="your-persona" style="--c:var(--c-start)">Your Persona</a>
+      <a href="#character-bots" data-view-link="character-bots" style="--c:var(--c-bots)">Character Bots</a>
+      <a href="#scenario-bots" data-view-link="scenario-bots" style="--c:var(--c-bots)">Scenario Bots</a>
+      <a href="#prose" data-view-link="prose" style="--c:var(--c-tips)">Prose</a>
+      <a href="#lorebooks" data-view-link="lorebooks" style="--c:var(--c-lore)">Lorebooks</a>
+      <a href="#dreamscapes" data-view-link="dreamscapes" style="--c:var(--c-dream)">Dreamscapes</a>
+      <a href="#genning-images" data-view-link="genning-images" style="--c:var(--c-genai)">Genning Images</a>
+      <a href="#tips-tricks" data-view-link="tips-tricks" style="--c:var(--c-secret)">Tips &amp; Tricks</a>
+      <a href="#settings" data-view-link="settings" style="--c:var(--c-faq)">Settings</a>
+      <a href="#faq" data-view-link="faq" style="--c:var(--c-faq)">FAQ</a>
+      <a href="#glossary" data-view-link="glossary" style="--c:var(--c-gloss)">Glossary</a>
+      <a href="#discord" data-view-link="discord" style="--c:var(--c-discord)">Discord</a>
+    </nav>
+    <button class="search-btn" id="search-btn" aria-label="Search the guide">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <span>Search…</span>
+      <kbd>⌘K</kbd>
+    </button>
+    <button class="burger" id="burger" aria-label="Open menu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </header>
+
+  <!-- ============ MOBILE DRAWER ============ -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <span style="font-family:var(--serif);font-weight:500;color:var(--cream)">Navigate</span>
+      <button class="close" id="drawer-close" aria-label="Close menu">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <a href="#home" data-view-link="home"><span class="dot" style="--c:var(--c-start)"></span>Home</a>
+    <a href="#your-persona" data-view-link="your-persona"><span class="dot" style="--c:var(--c-start)"></span>Your Persona</a>
+    <a href="#character-bots" data-view-link="character-bots"><span class="dot" style="--c:var(--c-bots)"></span>Character Bots</a>
+    <a href="#scenario-bots" data-view-link="scenario-bots"><span class="dot" style="--c:var(--c-bots)"></span>Scenario Bots</a>
+    <a href="#prose" data-view-link="prose"><span class="dot" style="--c:var(--c-tips)"></span>Prose &amp; Style</a>
+    <a href="#lorebooks" data-view-link="lorebooks"><span class="dot" style="--c:var(--c-lore)"></span>Lorebooks</a>
+    <a href="#dreamscapes" data-view-link="dreamscapes"><span class="dot" style="--c:var(--c-dream)"></span>Dreamscapes</a>
+    <a href="#genning-images" data-view-link="genning-images"><span class="dot" style="--c:var(--c-genai)"></span>Genning Your Images</a>
+    <a href="#tips-tricks" data-view-link="tips-tricks"><span class="dot" style="--c:var(--c-secret)"></span>Tips &amp; Tricks</a>
+    <a href="#settings" data-view-link="settings"><span class="dot" style="--c:var(--c-faq)"></span>Settings</a>
+    <a href="#faq" data-view-link="faq"><span class="dot" style="--c:var(--c-faq)"></span>FAQ</a>
+    <a href="#glossary" data-view-link="glossary"><span class="dot" style="--c:var(--c-gloss)"></span>Glossary</a>
+    <a href="#discord" data-view-link="discord"><span class="dot" style="--c:var(--c-discord)"></span>Discord</a>
+    <p class="drawer-foot">written with a lot of <span class="heart">&#9829;</span><br>(and too much coffee)</p>
+  </aside>
+
+  <!-- ============ SEARCH MODAL ============ -->
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search">
+    <div class="search-card">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="search-input" type="text" placeholder="Search the whole guide…" autocomplete="off">
+        <kbd class="esc">ESC</kbd>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN ============ -->
+  <main>
+
+    <!-- ============ HOME VIEW ============ -->
+    <section class="view" data-view="home">
+      <div class="welcome">
+        <span class="hi">hey — come on in :)</span>
+        <h1>Everything we know about <em>Dreamjourney</em>, in one cozy place.</h1>
+        <p>We're Eurielle &amp; Chunley, and we got tired of answering the same questions in DMs — so we wrote it all down. <span class="soft">No corporate fluff, no gatekeeping, no "well actually." Just two friends oversharing everything we've figured out. Poke around, get a little lost, and go build something wonderfully weird.</span></p>
+        <a class="stickynote" href="#your-persona">
+          <svg class="arrow" viewBox="0 0 40 24"><path d="M2 18C10 18 14 4 24 6c6 1.2 8 6 11 6"/><path d="M30 6l5 6-7 2"/></svg>
+          brand new? start with <em>your persona</em>
+        </a>
+      </div>
+
+      <div class="seclabel">
+        <h2>Where do you want to start?</h2>
+        <span class="scrawl">pick a topic —</span>
+        <span class="ln"></span>
+      </div>
+
+      <div class="portals">
+        <a class="portal" href="#your-persona" style="--c:var(--c-start)">
+          <span class="lab"><span class="pin"></span>Your Persona</span>
+          <h3>The "you" in the story</h3>
+          <p>Before you chat with any bot, you decide who <em>you</em> are. Name, vibe, voice — your character in the RP, not the bot's.</p>
+          <div class="count">start here</div>
+        </a>
+        <a class="portal" href="#character-bots" style="--c:var(--c-bots)">
+          <span class="lab"><span class="pin"></span>Character Bots</span>
+          <h3>Make someone up</h3>
+          <p>Give them a voice, a vibe, a whole little soul. Everything from blank page to "wait, they feel real."</p>
+          <div class="count">7 chapters</div>
+        </a>
+        <a class="portal" href="#scenario-bots" style="--c:var(--c-bots)">
+          <span class="lab"><span class="pin"></span>Scenario Bots</span>
+          <h3>Build a world</h3>
+          <p>When the story matters more than any one character. Worlds, settings, situations to live inside.</p>
+          <div class="count">3 chapters</div>
+        </a>
+        <a class="portal" href="#prose" style="--c:var(--c-tips)">
+          <span class="lab"><span class="pin"></span>Prose &amp; Style</span>
+          <h3>How it sounds</h3>
+          <p>Purple, gritty, staccato — make your bot write the way you want, not whatever the LLM defaults to.</p>
+          <div class="count">7 styles</div>
+        </a>
+        <a class="portal" href="#lorebooks" style="--c:var(--c-lore)">
+          <span class="lab"><span class="pin"></span>Lorebooks</span>
+          <h3>Worlds that remember</h3>
+          <p>Teach your story to keep its own secrets. Entries, keys, triggers — demystified, no flooding.</p>
+          <div class="count">3 chapters</div>
+        </a>
+        <a class="portal" href="#dreamscapes" style="--c:var(--c-dream)">
+          <span class="lab"><span class="pin"></span>Dreamscapes</span>
+          <h3>Scenes that look back</h3>
+          <p>The audio-visual layer on your bot — character closeups, environments, moodboards generated to fit the story.</p>
+          <div class="count">3 chapters</div>
+        </a>
+        <a class="portal" href="#genning-images" style="--c:var(--c-genai)">
+          <span class="lab"><span class="pin"></span>Genning Images</span>
+          <h3>Where the art comes from</h3>
+          <p>Image generators, the realism rule for DJAI, style anchors, and how to keep your bot's whole image set cohesive.</p>
+          <div class="count">where &amp; how</div>
+        </a>
+        <a class="portal" href="#tips-tricks" style="--c:var(--c-secret)">
+          <span class="lab"><span class="pin"></span>Tips &amp; Tricks</span>
+          <h3>Push your bot further</h3>
+          <p>The little prompt moves, behavior hacks, workflow shortcuts, and how to make those pretty long AC images.</p>
+          <div class="count">4 chapters</div>
+        </a>
+        <a class="portal" href="#settings" style="--c:var(--c-faq)">
+          <span class="lab"><span class="pin"></span>Settings</span>
+          <h3>The dials &amp; knobs</h3>
+          <p>System prompts, temperature, min-p, max tokens — what those scary numbers actually do.</p>
+          <div class="count">2 chapters</div>
+        </a>
+        <a class="portal" href="#faq" style="--c:var(--c-faq)">
+          <span class="lab"><span class="pin"></span>FAQ</span>
+          <h3>The questions everyone asks</h3>
+          <p>Persona length, lorebook saves, gibberish replies, max tokens panic — quick answers to common puzzles.</p>
+          <div class="count">~15 questions</div>
+        </a>
+        <a class="portal" href="#glossary" style="--c:var(--c-gloss)">
+          <span class="lab"><span class="pin"></span>Glossary</span>
+          <h3>Decode the lingo</h3>
+          <p>Tokens? Cascade? Guts? Every confusing word, explained like a normal person would.</p>
+          <div class="count">A–Z</div>
+        </a>
+        <a class="portal" href="#discord" style="--c:var(--c-discord)">
+          <span class="lab"><span class="pin"></span>Discord</span>
+          <h3>Come hang out</h3>
+          <p>Real-time help, community events, credit giveaways — and the people behind the guide. Free to join.</p>
+          <div class="count">community</div>
+        </a>
+      </div>
+
+      <div class="seclabel">
+        <h2>Fresh out the oven</h2>
+        <span class="scrawl">recently added —</span>
+        <span class="ln"></span>
+      </div>
+      <div class="fresh">
+        <a href="#genning-images"><span class="dot" style="--c:var(--c-genai)"></span><span class="ftitle">Genning your images — where art comes from, what's too real</span><span class="new">new!</span><span class="fmeta">Genning Images</span></a>
+        <a href="#tips-tricks:long-images"><span class="dot" style="--c:var(--c-secret)"></span><span class="ftitle">How to make those pretty long author's comment images</span><span class="new">new!</span><span class="fmeta">Tips &amp; Tricks</span></a>
+        <a href="#your-persona"><span class="dot" style="--c:var(--c-start)"></span><span class="ftitle">Your Persona — who you play when you chat with bots</span><span class="fmeta">Your Persona</span></a>
+        <a href="#tips-tricks"><span class="dot" style="--c:var(--c-secret)"></span><span class="ftitle">All our little secrets, no gatekeeping</span><span class="fmeta">Tips &amp; Tricks</span></a>
+        <a href="#dreamscapes"><span class="dot" style="--c:var(--c-dream)"></span><span class="ftitle">Dreamscapes — the audio-visual layer on your bot</span><span class="fmeta">Dreamscapes</span></a>
+      </div>
+
+      <div class="seclabel">
+        <h2>Who's writing this?</h2>
+        <span class="scrawl">hi, it's us —</span>
+        <span class="ln"></span>
+      </div>
+      <div class="guides">
+        <div class="guide">
+          <div class="avatar av-e">E</div>
+          <div>
+            <h4>Eurielle</h4>
+            <div class="sig">~ probably building a bot right now</div>
+            <p>[ Your bio goes here — who you are, what you love to make, the chaos you bring. Make it sound like you. ]</p>
+          </div>
+        </div>
+        <div class="guide">
+          <div class="avatar av-c">C</div>
+          <div>
+            <h4>Chunley</h4>
+            <div class="sig">~ lorebook enthusiast, allegedly</div>
+            <p>[ Chunley's bio goes here — your specialty, a fun fact, the thing you'll never shut up about. ]</p>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        Made with <span class="heart">&#9829;</span> by Eurielle &amp; Chunley · an independent, made-by-fans guide · not affiliated with Dreamjourney
+      </footer>
+    </section>
+
+    <!-- ============ YOUR PERSONA VIEW ============ -->
+    <section class="view" data-view="your-persona" style="--c:var(--c-start)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Your Persona</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">the you in the story —</span>
+        <h1>Your <em>Persona</em></h1>
+        <p class="intro">Before you chat with anyone, you decide who <em>you</em> are. <span class="soft">Not the bot — you. The character you're playing as. A persona tells the AI who it's actually talking to, and the difference between "having one" and "not having one" is huge.</span></p>
+      </header>
+
+      <article class="chapter active" data-chapter="your-persona">
+        <h3>What it is <span class="accent">— the short version</span></h3>
+        <p>A user persona is the character <strong>you</strong> wear when you chat with a bot. Name, basic appearance, vibe, voice — whatever the bot needs to know about you to actually <em>talk to</em> you instead of guessing.</p>
+
+        <p>Without a persona, the AI invents details about you on the fly. That's why some bots default to addressing you as a generic stranger, or randomly assume things about you that don't match who you wanted to be in the story. A persona is how you stop being a stranger.</p>
+
+        <div class="callout">
+          <span class="clab">two personas, don't confuse them</span>
+          <p><strong>The bot's Persona</strong> (over in <a href="#character-bots:persona" style="color:var(--c-bots);text-decoration:underline">Character Bots → Persona</a>) is the brain of <em>them</em>. <strong>Your Persona</strong> (this page) is the brain of <em>you</em>. Same word, totally different jobs. We didn't name them.</p>
+        </div>
+
+        <h3>Why bother</h3>
+        <ul>
+          <li><strong>The bot can actually talk to you.</strong> Use your name, react to your traits, mirror your vibe.</li>
+          <li><strong>You can play someone different.</strong> Soft and shy in one chat, ruthless and witty in another — whatever the story wants.</li>
+          <li><strong>Less random nonsense.</strong> The AI stops inventing details about you that you never agreed to.</li>
+          <li><strong>Immersion goes up.</strong> The story feels like it's happening to <em>someone</em> instead of a faceless camera floating in the room.</li>
+        </ul>
+
+        <h3>Where to set it up</h3>
+        <p>Look for the Personas area in your Dreamjourney account — usually near your profile or settings. From there you can create one, edit it, or switch between several.</p>
+
+        <div class="callout" style="--c:var(--c-bots)">
+          <span class="clab">tip</span>
+          <p>[ Drop the exact in-app path here if you'd like — e.g. "Profile icon → Personas → New Persona." Different platforms move this around, so it's worth checking. ]</p>
+        </div>
+
+        <h3>What to actually put in it</h3>
+        <p>Keep it tight. A user persona doesn't need to be a novel — it just needs to give the AI enough to talk to.</p>
+
+        <div class="compare">
+          <div class="callout" style="--c:#9bebd9">
+            <span class="clab">good to include</span>
+            <ul>
+              <li>Name (or alias, or just <code>{{user}}</code>)</li>
+              <li>Pronouns</li>
+              <li>Basic appearance — a few brushstrokes, not a portrait</li>
+              <li>2–3 personality traits</li>
+              <li>Speech style, if it matters</li>
+              <li>Anything the bot <em>must</em> know up front (job, age range, relationship status)</li>
+            </ul>
+          </div>
+          <div class="callout" style="--c:#f5b6d0">
+            <span class="clab">usually skip</span>
+            <ul>
+              <li>Real-life personal info (full name, address, anything you wouldn't tell a stranger)</li>
+              <li>Mood for today (that's <a href="#character-bots:context" style="color:var(--c-bots);text-decoration:underline">Context</a>)</li>
+              <li>A full life story (too much, it'll fixate)</li>
+              <li>Exact current outfit (same trap as bot Personas — they'll wear it forever)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="heads-up">
+          <span class="label">the golden rule, again</span>
+          <p>The same wisdom from the bot's Persona applies here: <strong>less is more</strong>. A user persona that's 4–5 sentences tends to work better than one that's a full character sheet. The AI references it constantly, and a long persona crowds the context window for no real gain.</p>
+        </div>
+
+        <h3>You can have more than one</h3>
+        <p>You're not locked into a single persona forever. Most people end up with a few:</p>
+
+        <ul class="dashed">
+          <li>A <strong>"default you"</strong> — close to who you actually are, for casual chats</li>
+          <li>A <strong>fantasy you</strong> — for romance, adventure, the dramatic stuff</li>
+          <li>A <strong>blank slate</strong> with just <code>{{user}}</code> and pronouns, for when you want the bot to project less on you</li>
+        </ul>
+
+        <p>Swap between them depending on the bot and the mood. Some platforms let you assign a default persona per-bot, which is great once you have a couple you like.</p>
+
+        <details class="peek">
+          <summary>Example user persona<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <div class="example"><span class="elab ex">example</span>
+              <p class="etext">Name: Wren. Pronouns: she/they. Late twenties, sharp-eyed, dresses softly but isn't soft. Quick-witted, gets sarcastic when nervous, asks questions before making moves. Tends to read people more than they read her.</p>
+            </div>
+            <p class="soft">Notice what's <em>not</em> there: no current outfit, no current mood, no backstory paragraph, no list of skills. Just enough for the bot to know who walked into the room.</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Drop our example personas here<span class="ptag">later —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Eurielle &amp; Chunley: drop your favorite personas of your own here as examples. The "default" one and a couple of fun fantasy ones is a nice mix. ]</em></p>
+          </div>
+        </details>
+
+        <h3>A note on privacy <span class="accent">— please read this one</span></h3>
+        <p>Your persona lives in chats with the AI, but anything you type there is processed by the model and may be stored. <strong>Don't put real personal info in your persona</strong> — full legal name, address, workplace, anything you wouldn't share with a stranger. A first name or alias is fine. Pronouns are fine. Vibes are fine. Identifying details are not.</p>
+      </article>
+    </section>
+
+    <!-- ============ CHARACTER BOTS VIEW ============ -->
+    <section class="view" data-view="character-bots" style="--c:var(--c-bots)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Character Bots</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">making someone up —</span>
+        <h1>Character <em>Bots</em></h1>
+        <p class="intro">Building a bot is just describing a person well. <span class="soft">Voice, vibe, the little things they'd never say out loud. Each tab below is one piece of the puzzle — start with Persona if you're new.</span></p>
+      </header>
+
+      <div class="tabs" data-tabs-for="character-bots">
+        <button data-tab="persona" class="active">Persona</button>
+        <button data-tab="open-questions">Open-ended Questions</button>
+        <button data-tab="details">Details</button>
+        <button data-tab="first-message">First Message</button>
+        <button data-tab="context">Context</button>
+        <button data-tab="authors-comment">Author's Comment</button>
+        <button data-tab="scenes">Scenes</button>
+      </div>
+
+      <article class="chapter active" data-chapter="persona">
+        <p>This is the brain of your character. The Persona section is where you define what makes them <em>them</em>. The bot will pull from this constantly, and things written here get referenced over and over again — so only include stuff that's <strong>permanent or core</strong> to who they are.</p>
+
+        <div class="compare">
+          <div class="callout" style="--c:#9bebd9">
+            <span class="clab">good to include</span>
+            <ul>
+              <li>Personality traits</li>
+              <li>Important beliefs</li>
+              <li>Moral alignment</li>
+              <li>Speech patterns</li>
+            </ul>
+          </div>
+          <div class="callout" style="--c:#f5b6d0">
+            <span class="clab">usually skip</span>
+            <ul>
+              <li>Current emotions</li>
+              <li>Temporary outfits / clothes</li>
+              <li>Exact scene details</li>
+              <li>Other characters (unless extremely important)</li>
+              <li>Direct references to <code>{{user}}</code></li>
+            </ul>
+          </div>
+        </div>
+
+        <p>Why does this matter? Because the AI treats the Persona like a <strong>constant reference point</strong>. Drop temporary info here and the bot will keep dragging it back into scenes over and over.</p>
+
+        <div class="example"><span class="elab bad">cautionary tale</span>
+          <p class="etext">If you mention a leather jacket here, the bot may put them in that jacket constantly — even if you set it on fire and throw it off a cliff. It'll be back.</p>
+        </div>
+        <p>If you mention another character here, the bot may keep dragging them into scenes. If you say they're angry here, they may stay angry <em>forever</em>. This section does a lot of the heavy lifting, so keep it clean and focused.</p>
+
+        <div class="heads-up">
+          <span class="label">the golden rule</span>
+          <p>Keep this section to roughly <strong>6–7 sentences max</strong>. Too much personality info actually makes the bot <em>less</em> consistent — the more overloaded it gets, the harder it is for the AI to figure out what matters most.</p>
+        </div>
+
+        <h3>The three big things</h3>
+        <ul class="dashed">
+          <li>Use plain language</li>
+          <li>Write naturally</li>
+          <li>Be clear, and leave little room for misinterpretation</li>
+        </ul>
+
+        <p class="soft">Don't be afraid to ask Schmoo or ChatGPT to read your Persona and tell you how they think the character would behave. It's a great gut-check — if the AI describes them differently than you intended, your core may be unclear.</p>
+
+        <details class="peek">
+          <summary>Chunley's example Persona<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Drop Chunley's example persona here. ]</em></p>
+          </div>
+        </details>
+        <details class="peek">
+          <summary>Eurielle's example Persona<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Drop Eurielle's example persona here. ]</em></p>
+          </div>
+        </details>
+      </article>
+
+      <article class="chapter" data-chapter="open-questions">
+        <p>Adding just 2–3 open-ended questions to your Persona, Instructions, or Details can seriously improve your bot's consistency. Why? They nudge the LLM to actually <em>think</em> about the character instead of mechanically copying traits — which reduces moments where the bot suddenly feels out of character or starts sounding like a generic AI chatbot.</p>
+
+        <h3>Examples that work</h3>
+        <ul>
+          <li>How does Bob react when he realizes he's losing control of a situation?</li>
+          <li>What kinds of people tend to frustrate Bob the fastest, and why?</li>
+          <li>In what small ways does Bob unintentionally reveal that he's lonely?</li>
+          <li>How would Bob justify doing something morally wrong if he believed it was necessary?</li>
+          <li>How does the world treat people born with magic, and how has that shaped Bob's view of others?</li>
+        </ul>
+
+        <div class="heads-up">
+          <span class="label">less is more</span>
+          <p>You do <strong>not</strong> need a lot of these. Usually <strong>2–3 strong questions</strong> works way better than adding twenty random ones. Too many can confuse the model and make the character feel unfocused. Keep them meaningful and relevant — they carry more weight when your Persona is short (remember the 6–7 sentence rule).</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="details">
+        <p>Not as critical as the Persona, but still matters a lot. Think of Details as the place for <strong>supporting info</strong> that fleshes the character out.</p>
+
+        <h3>Stuff that fits here</h3>
+        <ul>
+          <li>Appearance</li>
+          <li>Age</li>
+          <li>Job</li>
+          <li>Other characters (family, friends, etc.)</li>
+          <li>Backstory and important memories</li>
+          <li>Speech style and nuances</li>
+          <li>Habits</li>
+        </ul>
+
+        <h3>Avoid exact outfits</h3>
+        <p>If you say the character is wearing a black leather jacket, the AI may start acting like they wear that jacket constantly. Describe their <em>general</em> style instead.</p>
+
+        <div class="compare">
+          <div class="example"><span class="elab good">better</span>
+            <p class="etext">He dresses sharply and prefers dark clothing.</p>
+          </div>
+          <div class="example"><span class="elab bad">worse</span>
+            <p class="etext">He's wearing a black leather jacket, ripped jeans, and combat boots.</p>
+          </div>
+        </div>
+
+        <p>You can have a little more fun in this section — fill it up if you want, but keep in mind: <strong>less is more</strong>. If you max it out, the LLM will almost definitely skip over and miss things occasionally.</p>
+        <p>Don't repeat information you already wrote in the Persona unless it's <em>extremely</em> important. Repetition muddies the bot and wastes context space.</p>
+      </article>
+
+      <article class="chapter" data-chapter="first-message">
+        <p>One of the most important parts of the bot. The first message <strong>teaches the AI what the roleplay should feel like</strong>. Mood, pacing, writing style, character behavior, overall vibe — all heavily influenced by this section.</p>
+
+        <p>This is also the one place where longer writing is usually a good thing. Add detail: where the character is, what just happened before the scene started, what mood they're in, how they speak, what they're doing, what the environment feels like. The clearer the scene, the easier it is for the AI to stay consistent.</p>
+
+        <div class="callout" style="--c:var(--c-bots)">
+          <span class="clab">remember</span>
+          <p>The AI usually <strong>copies the style</strong> of the first message. Long and descriptive opening? Replies will trend longer and more descriptive. Short and fast-paced? It'll keep writing that way. If you use italics for actions, expect italics throughout. Dramatic short paragraphs? Same.</p>
+        </div>
+
+        <h3>Don't write for the user <span class="accent">— biggest trap</span></h3>
+        <p>If you tell the user exactly what they say, feel, or do, the AI becomes more likely to keep controlling them later in the roleplay.</p>
+
+        <div class="compare">
+          <div class="example"><span class="elab bad">controlling</span>
+            <p class="etext">{{user}} walked into the room confidently and flirted with him.</p>
+          </div>
+          <div class="example"><span class="elab good">leaves room</span>
+            <p class="etext">The door opened, drawing his attention toward the person standing in the doorway.</p>
+          </div>
+        </div>
+        <p>The second version lets the user decide who they are and how they act — and more importantly, it keeps the LLM from writing for <code>{{user}}</code> in future replies.</p>
+
+        <h3>A quick word on POV</h3>
+        <ul class="dashed">
+          <li><strong>AnyPOV</strong> — gender-neutral writing; anyone can use the bot</li>
+          <li><strong>FemPOV</strong> — user is written as female</li>
+          <li><strong>MalePOV</strong> — user is written as male</li>
+        </ul>
+      </article>
+
+      <article class="chapter" data-chapter="context">
+        <p>The Context field is for <strong>temporary information</strong>. Think of it like short-term instructions for the AI that fall off after only <strong>5–10 messages</strong>. It's the right place to put things you want the bot to remember or focus on at the start of a roleplay.</p>
+
+        <h3>Use it for</h3>
+        <ul>
+          <li>Temporary behavior</li>
+          <li>Scene setup</li>
+          <li>Short-term mood changes</li>
+          <li>Current situations</li>
+          <li>Activating lorebook entries immediately</li>
+        </ul>
+
+        <div class="example"><span class="elab ex">example</span>
+          <code class="ecode">{{char}} is trying to hide an injury.</code>
+        </div>
+        <div class="example"><span class="elab ex">or</span>
+          <code class="ecode">{{char}} is in an aggressive mood after having a terrible day.</code>
+        </div>
+
+        <div class="heads-up">
+          <span class="label">not for permanent stuff</span>
+          <p>Unlike the Persona, this field is <strong>NOT</strong> meant for permanent character traits. Think of it as <em>"what is happening right now?"</em> rather than <em>"who is this character at their core?"</em></p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="authors-comment">
+        <p>This is the bot's public info page — where users learn about the character, setting, and roleplay before they start chatting. Use it to show off your character and get creative. Pretty, informative, dramatic, aesthetic, immersive — whatever fits your bot best.</p>
+
+        <p>Explain the world, the important relationships, the character's vibe, their story, or anything else you want users to know before stepping in. The section supports <strong>Markdown formatting</strong>, so you can really customize it: images, bold, italics, headers, bullets, emojis, links, even clickable images. A lot of creators use this space to promote collaborations, link bots into collections or universes, share playlists, or just make their profile stand out.</p>
+
+        <div class="callout" style="--c:#f5b6d0">
+          <span class="clab">important caveat</span>
+          <p>This box carries <strong>absolutely no weight</strong> when it comes to how the AI will behave. It's purely for human readers — don't put behavioral instructions here expecting them to stick.</p>
+        </div>
+
+        <details class="peek">
+          <summary>Need a Markdown cheatsheet?<span class="ptag">link —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Drop your favorite markdown cheatsheet link here. ]</em></p>
+          </div>
+        </details>
+      </article>
+
+      <article class="chapter" data-chapter="scenes">
+        <p>Scenes are basically <strong>alternate first messages</strong>. They let you create different roleplay scenarios without needing to make entirely separate bots.</p>
+
+        <p>Since the first message heavily affects tone, behavior, pacing, and writing style, scenes are a great way to explore different sides of a character — or completely different story setups. Each scene has its own first message and can have a totally different vibe from the default. One scene could be romantic, another enemies-to-lovers, another horror, another an AU — all while keeping your character intact.</p>
+
+        <h3>Scene Context vs Scene Instructions</h3>
+        <div class="callout" style="--c:var(--c-bots)">
+          <span class="clab">scene context</span>
+          <p>Works just like the normal Context field — mostly for temporary instructions, current situations, moods, or short-term behaviors. Usually fades after 5–10 messages.</p>
+        </div>
+        <div class="callout" style="--c:var(--c-lore)">
+          <span class="clab">scene instructions</span>
+          <p>Much stronger. Can heavily affect tone, behavior, writing style, and even personality during that specific scene. Not as powerful as Author's Notes, but still carries a lot of weight — so use it <strong>carefully</strong> instead of stuffing it full of information.</p>
+        </div>
+      </article>
+
+      <nav class="chapter-nav" data-chapter-nav></nav>
+    </section>
+
+    <!-- ============ SCENARIO BOTS VIEW ============ -->
+    <section class="view" data-view="scenario-bots" style="--c:var(--c-bots)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Scenario Bots</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">building a world —</span>
+        <h1>Scenario <em>Bots</em></h1>
+        <p class="intro">When the world matters more than any one character. <span class="soft">A different beast from character bots, but not as scary as it sounds.</span></p>
+      </header>
+
+      <div class="tabs" data-tabs-for="scenario-bots">
+        <button data-tab="whats-different" class="active">What's Different</button>
+        <button data-tab="scenario-instructions">Instructions</button>
+        <button data-tab="scenario-details">Details</button>
+      </div>
+
+      <article class="chapter active" data-chapter="whats-different">
+        <p>Scenario bots aren't <em>that</em> different from character bots, but they can feel more intimidating at first because they're written a little differently.</p>
+
+        <div class="compare">
+          <div class="callout" style="--c:var(--c-bots)">
+            <span class="clab">character bot</span>
+            <p>Built around one specific person. The roleplay focuses on that character, their personality, their relationship with the user, and how they react to what's happening.</p>
+          </div>
+          <div class="callout" style="--c:var(--c-lore)">
+            <span class="clab">scenario bot</span>
+            <p>Built around the situation, setting, or world. The user has more room to explore, interact with different people, and move through the story without one character constantly pulling the scene back to themselves.</p>
+          </div>
+        </div>
+
+        <p>You can absolutely turn a character bot into a scenario bot. The main difference is <strong>focus</strong>. Character bot: the character is the center. Scenario bot: the world or situation is the center.</p>
+
+        <div class="example"><span class="elab ex">to illustrate</span>
+          <p class="etext">A character bot might be about talking to a vampire prince. A scenario bot might be about surviving in a kingdom secretly ruled by vampires — the prince can still exist, but the entire story doesn't have to revolve around him every single message.</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="scenario-instructions">
+        <p>The easiest way to write instructions for a scenario bot is to <strong>think like a director</strong>. You're not just describing one character anymore — you're telling the AI what kind of world this is and how it should behave.</p>
+
+        <h3>Questions to ask yourself</h3>
+        <ul>
+          <li>Is the world peaceful, dangerous, magical, modern, broken, strict, romantic, haunted, or politically tense?</li>
+          <li>Are people kind to strangers, or do they distrust outsiders?</li>
+          <li>Is the world bright and hopeful, or dark and survival-based?</li>
+        </ul>
+
+        <p>This section works a lot like the Persona box for a character bot. It carries a lot of weight, and the AI will reference it often — so only put things here that you actually want showing up frequently.</p>
+
+        <div class="example"><span class="elab ex">consequence</span>
+          <p class="etext">If you say it's storming, the AI may keep bringing up rain, thunder, wet streets, and dark skies over and over. If you mention the kingdom is at war, expect war to affect the way people talk, travel, trade, and react to strangers.</p>
+        </div>
+
+        <p>Focus on the <strong>core idea</strong> of the world, not every tiny detail. The AI needs to understand the "main rule" of the setting first. Details can always be added later in lorebooks, scenes, or context boxes.</p>
+      </article>
+
+      <article class="chapter" data-chapter="scenario-details">
+        <p>Just like with character bots, the Details section is where you put extra information that supports the main instructions. A good place for things the AI should know, but that don't need to be the main focus every single message.</p>
+
+        <h3>Good things to include</h3>
+        <ul>
+          <li>Important characters</li>
+          <li>Towns, kingdoms, factions</li>
+          <li>Political groups, points of interest</li>
+          <li>Religions, guilds, species</li>
+          <li>Magic systems, technology</li>
+          <li>Social rules</li>
+        </ul>
+
+        <p>Keep it organized and easy to understand. Don't dump every tiny fact here. If the info is too long or only matters sometimes, it'll work better as a <a href="#lorebooks" style="color:var(--c-lore);text-decoration:underline">lorebook entry</a>.</p>
+
+        <p>Try not to repeat what you wrote in the main Scenario Instructions. Instructions explain the core of the world. Details should add useful supporting info around it.</p>
+
+        <div class="example"><span class="elab ex">example</span>
+          <p class="etext">If your instructions say the kingdom is divided by war, the Details section could explain the names of the two sides, what they believe, and which towns or characters belong to each.</p>
+        </div>
+
+        <p>Keep it simple. The AI does better when important information is clear instead of buried under a mountain of lore.</p>
+
+        <details class="peek">
+          <summary>Example of one of Eurielle's scenario bots<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Drop one of Eurielle's scenario bot examples here. ]</em></p>
+          </div>
+        </details>
+      </article>
+
+      <nav class="chapter-nav" data-chapter-nav></nav>
+    </section>
+
+    <!-- ============ PROSE VIEW ============ -->
+    <section class="view" data-view="prose" style="--c:var(--c-tips)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Prose &amp; Style</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">how it sounds —</span>
+        <h1>How your bot <em>sounds</em></h1>
+        <p class="intro">Prose is just a fancy word for normal writing — how a character talks, narrates, or describes things in sentences and paragraphs. <span class="soft">The good news? You can absolutely tell a bot how to write. Just describe the prose style you want in its guts and watch the whole vibe shift.</span></p>
+      </header>
+
+      <article class="chapter active" data-chapter="styles">
+        <h3>The seven flavors <span class="accent">— pick your poison</span></h3>
+        <div class="prose-grid">
+          <div class="prose-card">
+            <div class="pname">Purple</div>
+            <div class="pdesc">Very detailed and dramatic. Lots of description and emotion.</div>
+            <div class="pex">"The storm clawed against the windows as his voice dropped to a dangerous whisper."</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">Minimalist</div>
+            <div class="pdesc">Clean and simple. Fewer details. Straight to the point.</div>
+            <div class="pex">"He shut the door and sat down. 'We need to talk.'"</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">Poetic</div>
+            <div class="pdesc">Artistic and lyrical. Focuses on rhythm, imagery, and emotion.</div>
+            <div class="pex">"The rain sang against the glass like a mourning hymn."</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">Gritty</div>
+            <div class="pdesc">Harsh, raw, realistic. Often used for crime, horror, or dark fantasy.</div>
+            <div class="pex">"Smoke burned his lungs. Blood dried on his knuckles."</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">Cinematic</div>
+            <div class="pdesc">Feels like a movie scene. Strong visuals and dramatic pacing.</div>
+            <div class="pex">"Neon lights reflected off the wet pavement as the city buzzed below."</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">Flowery</div>
+            <div class="pdesc">Extremely decorative — heavy on adjectives and embellishment.</div>
+            <div class="pex">"Golden sunlight cascaded through the delicate lace curtains."</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">Staccato</div>
+            <div class="pdesc">Very short, punchy sentences. Fast pacing. Strong impact.</div>
+            <div class="pex">"He looked up. Saw her. Froze."</div>
+          </div>
+        </div>
+
+        <details class="peek">
+          <summary>Oh my god — I hate Staccato. How do I make it stop?<span class="ptag">help —</span></summary>
+          <div class="peek-body">
+            <p>If it's <strong>your bot</strong>, you can simply add a little prompt into your persona or author's note:</p>
+            <div class="example"><span class="elab ex">try this</span>
+              <code class="ecode">Prose: Write in standard paragraphs using complete sentences.</code>
+            </div>
+            <p>If it's <strong>someone else's bot</strong>, you'll have to rely on OOC notes and your system prompt. But fair warning: if the creator has already prompted hard for a specific prose style, you might be fighting it the entire chat.</p>
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <!-- ============ LOREBOOKS VIEW ============ -->
+    <section class="view" data-view="lorebooks" style="--c:var(--c-lore)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Lorebooks</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">long-term memory —</span>
+        <h1><em>Lorebooks</em></h1>
+        <p class="intro">Worlds that remember. <span class="soft">Lorebooks are where your story keeps its own secrets — but they can also flood your chat if you're not careful. Here's the whole picture.</span></p>
+      </header>
+
+      <div class="tabs" data-tabs-for="lorebooks">
+        <button data-tab="what-is" class="active">What is a Lorebook?</button>
+        <button data-tab="trigger-words">Trigger Words</button>
+        <button data-tab="cascade">Avoiding Cascade</button>
+      </div>
+
+      <article class="chapter active" data-chapter="what-is">
+        <p>A lorebook is where you store extra information the bot doesn't need <em>all</em> the time. Think of it like a storage box for worldbuilding, side characters, locations, factions, history, or important rules. Instead of stuffing everything into the bot's main prompt, you can put longer or more specific info in the lorebook.</p>
+
+        <p>Lorebooks work with <strong>trigger words</strong>. When the user or bot says a trigger word, the matching entry gets pulled into the roleplay.</p>
+
+        <div class="example"><span class="elab ex">example</span>
+          <p class="etext">If you have a lorebook entry for "Velaris," you might use trigger words like: <strong>Velaris</strong> or <strong>City of Starlight</strong>. Or, if your character has an entry for their mother Carol, your trigger words might be: <strong>Carol</strong>, <strong>mother</strong>, and <strong>mom</strong>.</p>
+        </div>
+
+        <details class="peek">
+          <summary>My lorebook won't let me save!<span class="ptag">troubleshoot —</span></summary>
+          <div class="peek-body">
+            <p>Check these things first:</p>
+            <ul>
+              <li>Do <strong>all</strong> of your entries have trigger words, a category type, an entry name, and at least something in the description?</li>
+              <li>Are you maxing out all your entries? Try shortening them — keep each one under about <strong>800 characters</strong>.</li>
+              <li>Did you import a JSON file? Sometimes it bugs out. Try again, or add each entry by hand and <strong>save frequently</strong>.</li>
+            </ul>
+          </div>
+        </details>
+      </article>
+
+      <article class="chapter" data-chapter="trigger-words">
+        <p>The most important rule with trigger words: <strong>don't use the same trigger word for a bunch of different entries</strong>. If five lorebook entries all share one trigger word, the bot may try to pull all five at once. That floods the context and eats up way too much space.</p>
+
+        <p>When context gets too crowded, the LLM has a harder time knowing what matters. It may start ignoring parts of the lorebook, mixing details together, or acting like it didn't pull the entry at all.</p>
+
+        <h3>Make them specific</h3>
+        <p>Instead of "Kingdom" for every kingdom-related entry, use names like <strong>Camelot</strong> or <strong>Kingdom of Camelot</strong>. For family members — if your character has multiple siblings — add a small section in the Details:</p>
+
+        <div class="example"><span class="elab ex">in the details</span>
+          <code class="ecode">Brothers: John, Carl, Bob, James
+Sisters: Caitlin, Heather, Rebecca, Samantha</code>
+        </div>
+
+        <p>Then use just their names as trigger words. Inside the description of each lorebook entry, you can reiterate: <em>"{{char}}'s older brother,"</em> etc.</p>
+      </article>
+
+      <article class="chapter" data-chapter="cascade">
+        <p>But wait — if you put trigger words inside your bot's guts (like that sibling list from the previous tab), isn't that <em>also</em> pulling entries unintentionally? It absolutely can, yes! That's called <strong>cascade</strong> or <strong>context flooding</strong>, and there's a clever way around it.</p>
+
+        <h3>The underscore trick</h3>
+        <p>Adding an underscore before or after a trigger word can stop the lorebook entry from activating by accident. If you have <strong>John</strong> as a trigger word, in your details you can write:</p>
+
+        <div class="example"><span class="elab ex">try this</span>
+          <code class="ecode">_John   or   John_</code>
+        </div>
+
+        <p>This is useful when you want the bot to have access to extra information, but you don't want it to potentially trigger the lorebook entry just from being mentioned in the guts of the bot.</p>
+
+        <p>It works really well for character lists, locations, factions, hidden lore, or background information that should only appear when you specifically want it.</p>
+
+        <div class="callout" style="--c:#f5b6d0">
+          <span class="clab">tiny con</span>
+          <p>Very rarely, the LLM might refer to "John" as "_John" in a reply. A simple reroll fixes it. In my opinion the benefits outweigh the rare, minor inconvenience — but now you know it can happen.</p>
+        </div>
+      </article>
+
+      <nav class="chapter-nav" data-chapter-nav></nav>
+    </section>
+
+    <!-- ============ DREAMSCAPES VIEW ============ -->
+    <section class="view" data-view="dreamscapes" style="--c:var(--c-dream)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Dreamscapes</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">scenes that look back —</span>
+        <h1><em>Dreamscapes</em></h1>
+        <p class="intro">The audio-visual layer that pairs with your bot. <span class="soft">When someone turns one on, the scene generates around what's happening — a face, a setting, an atmosphere — to deepen the immersion.</span></p>
+      </header>
+
+      <div class="tabs" data-tabs-for="dreamscapes">
+        <button data-tab="what-is" class="active">What are they?</button>
+        <button data-tab="creating">Creating One</button>
+        <button data-tab="tips">Tips &amp; Tricks</button>
+      </div>
+
+      <article class="chapter active" data-chapter="what-is">
+        <p>A Dreamscape is an audio-visual environment you attach to your bot. Other users can flip it on when they chat with your bot, and the scene generates around what's happening in the roleplay — character closeups, location shots, atmospheric vibes — all to deepen the immersion.</p>
+
+        <p>Think of it like the soundtrack and cinematography of your bot. The writing is still doing the heavy lifting, but a good Dreamscape turns "a chat" into "a scene I'm inside of."</p>
+
+        <div class="callout">
+          <span class="clab">heads up</span>
+          <p>At the moment, <strong>in-chat Dreamscapes are temporarily removed</strong> from the platform per Dreamjourney's own docs. The editor still works for setting them up, so your bot will be ready when they're switched back on for chats.</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="creating">
+        <p>The Dreamscape editor lives on your bot's page, behind the Creator Options menu. Here's the path:</p>
+
+        <ul class="dashed">
+          <li>Open your bot's page</li>
+          <li>Click <strong>Creator Options</strong></li>
+          <li>Click <strong>Edit Dreamscape</strong></li>
+        </ul>
+
+        <p>That lands you on the Edit Dreamscape page, where you can build a fresh one or tweak an existing one.</p>
+
+        <h3>What the generator pulls from <span class="accent">— it's not just your instructions</span></h3>
+        <p>Behind the curtain, the Dreamscape uses a few different sources at once:</p>
+
+        <ul>
+          <li>The <strong>visual instructions</strong> you write in the Dreamscape itself</li>
+          <li>The <strong>bot's description</strong> — all those appearance and world details from Persona and Details</li>
+          <li>Any <strong>reference images</strong> you upload</li>
+          <li>Other context from the chat at the moment of generation</li>
+        </ul>
+
+        <div class="heads-up">
+          <span class="label">expect a little wobble</span>
+          <p>Generative AI is wobbly by nature — even with perfect instructions, the same scene can come out slightly different each run. That's normal. Aim for the <em>core elements</em> being right, not pixel-perfect consistency.</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="tips">
+        <p>There are two main flavors of Dreamscape, and they want slightly different things from you.</p>
+
+        <h3>Character-focused <span class="accent">— the face matters</span></h3>
+        <p>When the Dreamscape is meant to show off your character, the bot description does most of the work. Make sure these are spelled out clearly somewhere in the bot:</p>
+
+        <ul>
+          <li>Eye color</li>
+          <li>Hair color and style</li>
+          <li>Notable physical features (scars, tattoos, build, posture)</li>
+        </ul>
+
+        <p>A <strong>clear, high-quality reference image</strong> helps a lot — give the AI a face to lock onto.</p>
+
+        <div class="example"><span class="elab ex">try this instruction</span>
+          <code class="ecode">focus, closeup on {charactername}</code>
+        </div>
+        <p>That nudges the generator to keep the camera on the character instead of drifting into wide environment shots.</p>
+
+        <h3>Scenery-focused <span class="accent">— the world matters</span></h3>
+        <p>When the bot is more about the world than any one face — a tavern, a battlefield, a haunted forest — describe the atmosphere, lighting, and key environmental elements in the bot. Then tell the Dreamscape to leave the camera off characters:</p>
+
+        <div class="example"><span class="elab ex">try this instruction</span>
+          <code class="ecode">focus on scenery, no characters</code>
+        </div>
+
+        <p>Mood, time of day, weather, materials, scale — all worth mentioning. The more specific the world, the better the scene.</p>
+
+        <details class="peek">
+          <summary>Why does my Dreamscape keep coming out wrong?<span class="ptag">troubleshoot —</span></summary>
+          <div class="peek-body">
+            <p>Most "wrong" outputs come from one of three places:</p>
+            <ul>
+              <li>The bot description is too vague about appearance or setting — the AI is filling gaps with guesses</li>
+              <li>The reference image is low quality, multi-character, or contradicts the description</li>
+              <li>The visual instructions are pulling in two directions (e.g. closeup + wide shot at the same time)</li>
+            </ul>
+            <p>Tighten one of those and try again. It usually takes a couple of passes.</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Where can I read the official Dreamjourney Dreamscapes doc?<span class="ptag">link —</span></summary>
+          <div class="peek-body">
+            <p>Dreamjourney maintains its own short guide at <a href="https://djai.gitbook.io/djai-docs/basics/dreamscapes" target="_blank" rel="noopener" style="color:var(--c-dream);text-decoration:underline">djai.gitbook.io/djai-docs/basics/dreamscapes</a>. We pull from it and add our own notes; if anything we say here ever contradicts the official doc, the official doc wins.</p>
+          </div>
+        </details>
+      </article>
+
+      <nav class="chapter-nav" data-chapter-nav></nav>
+    </section>
+
+    <!-- ============ GENNING YOUR IMAGES VIEW ============ -->
+    <section class="view" data-view="genning-images" style="--c:var(--c-genai)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Genning Your Images</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">where the art comes from —</span>
+        <h1>Genning Your <em>Images</em></h1>
+        <p class="intro">The art on your bot's profile, the headers in your AC, the secondary characters in your scenes — they all have to come from somewhere. <span class="soft">Here's where, how, and the single biggest rule to keep in mind.</span></p>
+      </header>
+
+      <article class="chapter active" data-chapter="genning-images">
+        <h3>Is it too realistic for DJAI? <span class="accent">— the big question</span></h3>
+        <p>Short answer: <strong>if it could pass for a real photograph of a real person, it's too real.</strong> Like nearly every roleplay platform, DJAI is built around <em>illustrated</em> characters — anime, painted portraits, digital art, semi-realistic but clearly stylized. Photo-realistic AI art crosses a line because it stops being obviously fictional, and that opens doors nobody wants opened.</p>
+
+        <p>The good news: you have an enormous amount of room before you hit "too real." Anime, painterly, cel-shaded, watercolor, comic-style, semi-realism — all completely fair game and honestly more fun anyway. Style <em>is</em> personality, and your bot benefits from looking like someone made it on purpose.</p>
+
+        <div class="heads-up">
+          <span class="label">the rule of thumb</span>
+          <p>Look at your image and ask: <em>"could a stranger believe this is a candid photo of a real person?"</em> If yes, restyle it. If it obviously reads as illustration or art, you're fine. When in doubt, push it <em>more</em> stylized, not less.</p>
+        </div>
+
+        <div class="callout" style="--c:#f5b6d0">
+          <span class="clab">platform specifics</span>
+          <p>[ Drop the exact DJAI policy wording here when you have it — file size limits, banned categories, etc. We're working from the general roleplay-platform principle. ]</p>
+        </div>
+
+        <h3>What styles work great</h3>
+        <p>When you're prompting an image generator (or commissioning art, or pulling from a stock pool), these style anchors keep you safely in "obviously art" territory:</p>
+
+        <ul>
+          <li><strong>anime style</strong> / <strong>manga style</strong> — classic for character bots</li>
+          <li><strong>digital painting</strong> / <strong>digital illustration</strong> — painterly, expressive</li>
+          <li><strong>concept art</strong> — cinematic, often great for scenario bots</li>
+          <li><strong>cel-shaded</strong> / <strong>flat color</strong> — clean, modern, very stylized</li>
+          <li><strong>watercolor</strong> / <strong>ink wash</strong> — soft, atmospheric, distinctive</li>
+          <li><strong>semi-realism</strong> — realistic proportions and lighting, but still painterly</li>
+          <li><strong>storybook illustration</strong> — warm, narrative, fairy-tale energy</li>
+        </ul>
+
+        <h3>What to keep out of your prompt</h3>
+        <p>These are the phrases that drag generators toward photo-realism. If you see them in a prompt template, strip them out:</p>
+
+        <ul>
+          <li><strong>photograph</strong>, <strong>photorealistic</strong>, <strong>hyperrealistic</strong></li>
+          <li><strong>RAW photo</strong>, <strong>DSLR</strong>, <strong>candid</strong>, <strong>shot on iPhone</strong></li>
+          <li><strong>8k</strong>, <strong>ultra HD</strong> (these tend to pull toward photo-finish quality)</li>
+          <li><strong>real skin</strong>, <strong>real person</strong>, <strong>professional headshot</strong></li>
+          <li>Specific real camera names (Canon, Sony, etc.)</li>
+        </ul>
+
+        <p>And in the negative prompt (if your generator supports one), it's worth adding <code>photo, photograph, realistic, real person</code> as an extra safeguard.</p>
+
+        <h3>Where to make your images</h3>
+        <p>There are a lot of options. These are the ones the community uses most — different strengths for different jobs.</p>
+
+        <div class="tactic-grid">
+          <div class="tactic">
+            <span class="tname">NovelAI</span>
+            <p>Anime/manga-focused, paid subscription. Probably the most popular tool for character-bot art in this community.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">Stable Diffusion</span>
+            <p>Free if run locally, lots of free hosted versions. Massive variety of models — pick one trained on the style you want.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">Midjourney</span>
+            <p>Discord-based, subscription, beautiful out of the box. Easy to use, harder to keep consistent across multiple images.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">Pixai / Tensor</span>
+            <p>Browser-based, free tiers, strong anime models. Friendly for newcomers who don't want to install anything.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">Civitai</span>
+            <p>A library of community-made Stable Diffusion models. Find a style you love, run it via whichever SD frontend you prefer.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">Human artists</span>
+            <p>Commissions still exist! For your "main" bot art, hiring a human artist on Twitter, Bsky, or Ko-fi gets you something nobody else has.</p>
+          </div>
+        </div>
+
+        <details class="peek">
+          <summary>Our personal go-tos<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Eurielle &amp; Chunley: drop the exact tools you each use, your favorite models or prompts, and any community-discovered hidden gems. ]</em></p>
+          </div>
+        </details>
+
+        <h3>Keeping your bot's images consistent</h3>
+        <p>The trick to a polished-looking bot is using <strong>the same style across all its images</strong> — main portrait, scene art, AC long image, any secondary characters. The image generator has no memory between runs, so consistency comes from <em>you</em> reusing a "style anchor" prompt.</p>
+
+        <div class="example"><span class="elab ex">a style anchor you reuse</span>
+          <code class="ecode">soft digital painting, muted color palette, painterly brushwork, gentle lighting, warm tones, anime-influenced</code>
+        </div>
+
+        <p>Paste that same style anchor into every prompt for that bot. The subject changes (closeup, full body, scene, secondary character) but the style stays locked. That's what makes a bot's image set look <em>made</em> instead of <em>found</em>.</p>
+
+        <h3>Specs &amp; sizing</h3>
+        <p>A few practical defaults that work well across DJAI's image slots:</p>
+
+        <ul>
+          <li><strong>Profile / bot avatar</strong> — square crop, around 1024×1024px</li>
+          <li><strong>AC header / banner</strong> — roughly 16:9, around 1600×900px</li>
+          <li><strong>Long AC images</strong> — tall, around 1:3 to 1:5 ratio, ~1000px wide</li>
+          <li><strong>Scene art</strong> — landscape 16:9 or 4:3, around 1500×1000px</li>
+          <li>Save as <strong>JPG</strong> for photos and paintings (small files), <strong>PNG</strong> for crisp edges and transparency</li>
+        </ul>
+
+        <div class="callout">
+          <span class="clab">platform specifics, again</span>
+          <p>[ When you have the exact DJAI upload limits — max file size, supported formats, max dimensions — drop them here. Saves people the file-too-big shuffle. ]</p>
+        </div>
+
+        <h3>The two hard "no's"</h3>
+        <p>Beyond the realism question, two lines that absolutely shouldn't get crossed — both for community safety and because most platforms (DJAI included) will remove bots that cross them, and rightly so:</p>
+
+        <div class="tactic-grid">
+          <div class="tactic" style="--c:#f5b6d0">
+            <span class="tname">no real people</span>
+            <p>Don't generate or use images that depict real, identifiable people without their consent. Celebrities, your ex, your coworker — none of them.</p>
+          </div>
+          <div class="tactic" style="--c:#f5b6d0">
+            <span class="tname">no minors in suggestive contexts</span>
+            <p>Hard line, every platform, no exceptions, not even artistic ones. If you're not sure whether an image reads as a minor, age it up clearly or pick a different reference.</p>
+          </div>
+        </div>
+
+        <p>This stuff matters. The fan community runs on trust and not making the rest of us look bad — keep the gate guarded on these two and everyone gets to keep making cool stuff.</p>
+      </article>
+    </section>
+
+    <!-- ============ TIPS & TRICKS VIEW ============ -->
+    <section class="view" data-view="tips-tricks" style="--c:var(--c-secret)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Tips &amp; Tricks</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">no gatekeeping, the gate is open —</span>
+        <h1>Tips, Tricks &amp; <em>Secrets</em></h1>
+        <p class="intro">We're giving up all our little secrets — the prompt moves, the behavior hacks, how to put together those pretty long images you sometimes see in author's comments, and more. <span class="soft">Four tabs. Wander wherever's most useful to you.</span></p>
+      </header>
+
+      <div class="tabs" data-tabs-for="tips-tricks">
+        <button data-tab="prompts" class="active">Prompt Power-Ups</button>
+        <button data-tab="behavior">Behavior Hacks</button>
+        <button data-tab="workflow">Workflow Secrets</button>
+        <button data-tab="long-images">Long Images</button>
+      </div>
+
+      <article class="chapter active" data-chapter="prompts">
+        <p>How you write the bot matters more than how much you write. These are the moves that get more out of the same number of tokens.</p>
+
+        <h3>Open-ended questions <span class="accent">— the cheat code</span></h3>
+        <p>Sprinkling 2–3 open-ended questions into the Persona or Details is one of the highest-leverage moves in the whole guide. It nudges the LLM to <em>think</em> about your character instead of mechanically copying traits — and that's what makes a bot stop sounding like a chatbot.</p>
+
+        <div class="example"><span class="elab ex">try this in a Persona</span>
+          <p class="etext">How does she behave when she realizes she's losing? What kinds of people frustrate her the fastest, and why?</p>
+        </div>
+        <p>Two questions like that often outperform a dozen extra trait words. <a href="#character-bots:open-questions" style="color:var(--c-bots);text-decoration:underline">More on open-ended questions →</a></p>
+
+        <h3>Specific names beat generic descriptors</h3>
+        <p>The LLM treats specific proper nouns as anchors. "The kingdom" gets blurry; "the Kingdom of Velaris" becomes a thing the model holds onto. Same with characters — "her brother" drifts, "her brother Cal" sticks.</p>
+
+        <div class="compare">
+          <div class="example"><span class="elab good">sticks</span>
+            <p class="etext">Cal, her older brother, runs the smithy in the Lower Ward.</p>
+          </div>
+          <div class="example"><span class="elab bad">drifts</span>
+            <p class="etext">Her older brother runs a smithy in the city.</p>
+          </div>
+        </div>
+
+        <h3>Show, don't just describe</h3>
+        <p>If you want the bot to talk a specific way, <em>give it an example</em>. One short line of dialogue in the bot's voice is worth a paragraph of "she speaks dryly with a flat affect." LLMs imitate examples extremely well.</p>
+
+        <div class="example"><span class="elab ex">in a Persona or Details</span>
+          <code class="ecode">Example of how she speaks: "If you'd wanted help, you'd have asked nicely. You didn't. So."</code>
+        </div>
+
+        <h3>Use comparisons to disambiguate</h3>
+        <p>Vague traits like "stoic" or "cold" can land in fifty different ways. Compare to something specific to lock the meaning in:</p>
+
+        <div class="example"><span class="elab ex">try this</span>
+          <p class="etext">Stoic like a tired ER doctor, not stoic like a robot. He's not unfeeling — he's just out of bandwidth.</p>
+        </div>
+
+        <h3>Use an AI as your beta reader</h3>
+        <p>Once your Persona is written, paste it into Schmoo (or ChatGPT, or any chat model) and ask: <em>"Based only on this, describe how this character would behave in [some scenario]."</em> If the description matches what you intended → your Persona is clear. If it's off → your Persona has gaps, even if it reads fine to you.</p>
+
+        <h3>The first message is the loudest signal</h3>
+        <p>Spend disproportionate time on it. The first message teaches the bot mood, pacing, prose style, and POV all at once — and it'll copy those patterns for the rest of the chat. A weak first message wastes everything underneath it. <a href="#character-bots:first-message" style="color:var(--c-bots);text-decoration:underline">More on first messages →</a></p>
+
+        <div class="callout">
+          <span class="clab">your pro tip goes here</span>
+          <p>[ Drop your single favorite prompting trick here — the one you wish someone had told you when you started. ]</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="behavior">
+        <p>The LLM is a weird animal. These are the common things it does wrong, and how to actually fix them.</p>
+
+        <h3>Bot won't stop using the same cliché phrase</h3>
+        <p>The "X-ing the air," "ghost of a smile," "barely above a whisper" loop. Don't argue with it in OOC — just tell the bot, in your system prompt or author's note, what <em>not</em> to do:</p>
+
+        <div class="example"><span class="elab ex">try this in a system prompt</span>
+          <code class="ecode">Avoid: "barely a whisper," "ghost of a smile," sentences ending in trailing ellipses, describing breath on the air.</code>
+        </div>
+        <p>Negative instructions like this work surprisingly well, especially in your <em>own</em> system prompt where they don't bother other users of the bot.</p>
+
+        <h3>Bot keeps writing for you</h3>
+        <p>The fastest fix is upstream, not downstream — go back to the bot's <strong>first message</strong> and check if it tells the user what they do or feel. If it does, the LLM will copy that pattern for the rest of the chat. Rewrite the first message to leave room, and the rest of the conversation usually clears up. <a href="#character-bots:first-message" style="color:var(--c-bots);text-decoration:underline">More →</a></p>
+
+        <h3>Bot is repetitive within a single message</h3>
+        <p>Same phrase three times, same gesture, same observation. Two likely causes:</p>
+        <ul>
+          <li><strong>Repetition Penalty too low</strong> — bump it up a notch in settings</li>
+          <li><strong>Context flood</strong> — too many lorebook entries firing at once, which leaves the model with too much to repeat back at you</li>
+        </ul>
+
+        <h3>Bot is gibberish</h3>
+        <p>If replies are turning into word salad, it's almost always one of two things: <strong>Temperature too high</strong> (try 0.8) or <strong>Min-P too low</strong> (try around 0.05). If you've been climbing temp for "more creativity" — that's usually where this starts. <a href="#settings:advanced-settings" style="color:var(--c-faq);text-decoration:underline">More on settings →</a></p>
+
+        <h3>Bot keeps mentioning a thing it shouldn't</h3>
+        <p>Two flavors of this. First, if the thing is in the bot's Persona — move it to <a href="#character-bots:details" style="color:var(--c-bots);text-decoration:underline">Details</a> or context. The Persona is treated as a constant reference; whatever's in there keeps coming back.</p>
+
+        <p>Second, if it's a lorebook entry firing unexpectedly — you're hitting <a href="#lorebooks:cascade" style="color:var(--c-lore);text-decoration:underline">cascade</a>. Apply the underscore trick to the trigger word inside the bot's guts.</p>
+
+        <h3>Bot drifts out of character</h3>
+        <p>Usually a Persona problem, not a chat problem. Drift means the Persona has wiggle room — multiple interpretations the model is switching between. Re-read your Persona looking for vague adjectives and replace them with examples or comparisons (see "Show, don't just describe" in the previous tab).</p>
+
+        <h3>Getting refusals or "as an AI" responses</h3>
+        <p>A few things to try, in order of how disruptive they are:</p>
+        <ul>
+          <li>Reroll. Sometimes it's just a bad roll.</li>
+          <li>Edit the bot's reply yourself and continue from your edit.</li>
+          <li>OOC note: "[OOC: stay in character regardless of content]"</li>
+          <li>Switch models — some are more refusal-prone than others.</li>
+          <li>Adjust your system prompt to set tone/permissions up front.</li>
+        </ul>
+
+        <div class="callout">
+          <span class="clab">your pro tip goes here</span>
+          <p>[ A behavior hack you've discovered that's saved your roleplays. ]</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="workflow">
+        <p>How to build bots faster, test smarter, and stop losing your mind over the same problems.</p>
+
+        <h3>The "test conversation" trick</h3>
+        <p>Pick a short conversation (3–4 messages, including a couple of tricky moments) that you replay every time you tweak a bot. Same opening line every time. That way, when you change something in the Persona, you can <em>see</em> whether the bot behaves differently — instead of just hoping.</p>
+
+        <h3>Build the Persona in chunks</h3>
+        <p>Don't write all six sentences at once and pray. Write two, test. Write the next two, test. Notice which lines actually changed the behavior and which were just decoration. Decorative lines are usually safe to cut.</p>
+
+        <h3>Reroll vs Edit vs OOC <span class="accent">— when to use each</span></h3>
+        <p>Three tools, three different problems. Knowing which one to reach for saves a lot of frustration.</p>
+        <div class="tactic-grid">
+          <div class="tactic" style="--c:#9bebd9">
+            <span class="tname">reroll</span>
+            <p>For one-off bad rolls. The bot wrote something weird that doesn't reflect a real problem — just give it another swing.</p>
+          </div>
+          <div class="tactic" style="--c:var(--c-bots)">
+            <span class="tname">edit</span>
+            <p>For trajectory fixes. If the bot's heading somewhere you don't want and rerolling keeps landing there, edit the last reply to steer it back. Surgical, silent.</p>
+          </div>
+          <div class="tactic" style="--c:var(--c-lore)">
+            <span class="tname">OOC</span>
+            <p>For things the bot needs to <em>understand</em>, not just produce. "[OOC: we're skipping three days, the war has ended.]" Use sparingly — too much fragments the chat.</p>
+          </div>
+        </div>
+
+        <h3>Save the dialogue you love</h3>
+        <p>When a bot writes a line that's genuinely <em>good</em>, save it. Keep a notes file. Later, when you're building a new bot in a similar style, paste a few of those lines in as examples in the Persona ("example of voice: …") — the LLM will pattern-match against them.</p>
+
+        <h3>Different models for different jobs</h3>
+        <p>Some models are better thinkers, some are better writers, some are better at staying in character. Build and test with the model you'll actually use, but don't be afraid to swap when one's having an off day — what felt like a bot problem is often a model problem.</p>
+
+        <h3>The "second message" trick</h3>
+        <p>The first message sets the bot's tone. But <strong>your first reply</strong> sets <em>your</em> tone — and the bot copies that too. If you want longer, richer replies, write your first reply long and rich. If you want fast and punchy, go fast and punchy. The conversation tunes itself to whoever leans in harder first.</p>
+
+        <h3>Keep a "things that worked" file</h3>
+        <p>Every time you nail a prompt, a Persona structure, a system prompt, a lorebook trick — copy it into a notes file. Bot-building has a long learning curve, and you will absolutely forget what worked six months ago. Past you is a great teacher; treat past you like one.</p>
+
+        <details class="peek">
+          <summary>Our own workflow secrets<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Eurielle &amp; Chunley: this is the spot. Drop the specific weird little workflows you use that you've never seen anyone else mention. The truly esoteric ones. ]</em></p>
+          </div>
+        </details>
+
+        <div class="callout">
+          <span class="clab">your pro tip goes here</span>
+          <p>[ The one thing you do every time you build a bot that you wish everyone knew. ]</p>
+        </div>
+      </article>
+
+      <article class="chapter" data-chapter="long-images">
+        <p>You've seen them — those tall, gorgeous aesthetic images stacked in the Author's Comment of a really polished bot. Color palette, character art, a stray quote, dividers, more art, vibes for days. They're not magic. They're a layout, and layouts are learnable.</p>
+
+        <h3>What they are <span class="accent">— and why they help</span></h3>
+        <p>A "long image" is just a tall, narrow collage you build in any image editor and drop into the Author's Comment. Because the AC supports Markdown, you embed it as a single image and it scrolls down the panel like a moodboard. Done well, it sets tone <em>before</em> the chat even starts — the reader sees the world before they read a word about it.</p>
+
+        <h3>The basic recipe</h3>
+        <p>Almost every good one follows roughly the same skeleton, top to bottom:</p>
+
+        <ul>
+          <li><strong>Header</strong> — bot name, or a stylized title</li>
+          <li><strong>Hero art</strong> — the headline image of the character or world</li>
+          <li><strong>A short tagline or quote</strong> in a distinctive font</li>
+          <li><strong>Color palette</strong> — 4–6 swatches, the colors you want the reader's eye to soak in</li>
+          <li><strong>"Vibes" section</strong> — three or four keywords ("haunted", "tender", "cigarettes at 3am"). Sometimes laid out as a list, sometimes overlaid on art</li>
+          <li><strong>Divider</strong> — a thin line, a sigil, a row of small icons</li>
+          <li><strong>Secondary art</strong> — different angle, different mood, side character, location shot</li>
+          <li><strong>Footer / credit</strong> — your handle, a tag, a tiny easter egg</li>
+        </ul>
+
+        <p>Mix and reorder freely. The recipe is a starting point, not a law.</p>
+
+        <h3>What makes them feel cohesive <span class="accent">— the not-so-secret part</span></h3>
+
+        <div class="tactic-grid">
+          <div class="tactic">
+            <span class="tname">one palette</span>
+            <p>Pick 4–5 colors and stick to them. Every image, every text block, every divider. Cohesion comes from restraint, not variety.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">one or two fonts</span>
+            <p>A display font for headers, a clean one for everything else. Mixing five fonts kills the vibe instantly.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">grain &amp; texture</span>
+            <p>A subtle paper grain or film grain layer over everything makes a digital collage feel warm and intentional instead of stock.</p>
+          </div>
+          <div class="tactic">
+            <span class="tname">breathing room</span>
+            <p>Don't cram. White space (or dark space) between sections is what separates a moodboard from a yard sale.</p>
+          </div>
+        </div>
+
+        <h3>Aspect ratio &amp; sizing</h3>
+        <p>You want it <em>tall</em> — somewhere around <strong>1:3 to 1:5</strong> width-to-height works well. Width usually around 800–1200px so it renders crisp without bloating. Save as JPG if it's mostly photos and gradients (smaller file); PNG if it has crisp edges, text overlays, or transparency.</p>
+
+        <div class="heads-up">
+          <span class="label">a small tip</span>
+          <p>Don't go ultra-tall (1:10+). It looks impressive in your editor but on someone's phone it scrolls forever and they lose interest before they get to your bot. Tall and tight beats endless.</p>
+        </div>
+
+        <h3>Tools that work well</h3>
+        <ul>
+          <li><strong>Canva</strong> — free, templates, easy on mobile and desktop. Best starting point.</li>
+          <li><strong>PicCollage</strong> — phone-friendly, fast collage layouts, lots of stickers and frames</li>
+          <li><strong>Photopea</strong> — free, browser-based, basically Photoshop. The "I'm getting serious" tier.</li>
+          <li><strong>Procreate</strong> (iPad) — if you're already on Procreate, it's perfect for custom layouts</li>
+          <li><strong>Pinterest</strong> — not for building, but for the moodboard step before you start. Pull every reference here first.</li>
+        </ul>
+
+        <details class="peek">
+          <summary>Our personal tool stack<span class="ptag">peek —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Eurielle &amp; Chunley: drop the exact apps you each use, with notes on what each one is good for. Bonus points for sharing the actual Canva templates or PSD files folks can start from. ]</em></p>
+          </div>
+        </details>
+
+        <h3>Embedding it in the Author's Comment</h3>
+        <p>Once the image is exported, drop it into the AC using Markdown:</p>
+
+        <div class="example"><span class="elab ex">in the AC</span>
+          <code class="ecode">![bot moodboard](https://your-image-link-here.png)</code>
+        </div>
+
+        <p>You'll need the image hosted somewhere with a direct link — Imgur, Discord (right-click → copy link), or any image host. <a href="#character-bots:authors-comment" style="color:var(--c-bots);text-decoration:underline">More on Author's Comment formatting →</a></p>
+
+        <div class="callout">
+          <span class="clab">your pro tip goes here</span>
+          <p>[ The single move that makes your long images instantly better — your secret weapon. ]</p>
+        </div>
+      </article>
+
+      <nav class="chapter-nav" data-chapter-nav></nav>
+    </section>
+
+    <!-- ============ SETTINGS VIEW ============ -->
+    <section class="view" data-view="settings" style="--c:var(--c-faq)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Settings</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">the dials &amp; knobs —</span>
+        <h1>The <em>Settings</em></h1>
+        <p class="intro">System prompts, temperature, min-p, max tokens. <span class="soft">All those scary numbers explained, plainly.</span></p>
+      </header>
+
+      <div class="tabs" data-tabs-for="settings">
+        <button data-tab="system-prompts" class="active">System Prompts</button>
+        <button data-tab="advanced-settings">Advanced Settings</button>
+      </div>
+
+      <article class="chapter active" data-chapter="system-prompts">
+        <p>System Prompts are instructions <strong>you</strong> give the LLM. They only affect <em>your</em> chat — they don't change the bot for everyone else. Think of them like personal settings for the roleplay.</p>
+
+        <p>You can use them to tailor the RP to your taste: a certain prose style, a specific POV, different formatting, avoiding certain clichés or tropes or annoying LLM habits — this is where you write it down.</p>
+
+        <div class="callout" style="--c:var(--c-faq)">
+          <span class="clab">don't have one?</span>
+          <p>Check the community page on the website and search for a prompt that fits your style. Try a few, tweak them, see what works best for the models you like. Have fun and experiment.</p>
+        </div>
+
+        <details class="peek">
+          <summary>Thinking models and system prompts<span class="ptag">important —</span></summary>
+          <div class="peek-body">
+            <p>With thinking models, there's so much going on behind the scenes that it's commonly recommended you use the <strong>default system prompt</strong> or a <em>very, very</em> minimal custom one. Anything more elaborate can confuse the thinking model and lead to more hallucinations and errors.</p>
+          </div>
+        </details>
+      </article>
+
+      <article class="chapter" data-chapter="advanced-settings">
+        <p>The dials and knobs explained, plainly.</p>
+
+        <div class="setting">
+          <h4>Temperature <span class="num">creativity dial</span></h4>
+          <p>Controls the AI's creativity. <strong>Lower</strong> numbers = more logical; <strong>higher</strong> numbers = more creative, more twists and turns. For IPs and bots you want to follow the lorebook/instructions closely, lean slightly lower. I personally like mine around <strong>0.8</strong>. Others like 1 or even 1.2. Keep in mind: high temps (1.1+) might need a Min-P adjustment and can start hallucinating. If you're seeing a lot of gibberish, it's likely your temp or min-p.</p>
+        </div>
+
+        <div class="setting">
+          <h4>Repetition Penalty <span class="num">stop saying the same thing</span></h4>
+          <p>A technique used to discourage the model from producing repetitive or redundant output. It reduces the likelihood of generating tokens that have appeared recently in the generated text, which promotes more diverse and varied responses.</p>
+        </div>
+
+        <div class="setting">
+          <h4>Min-P <span class="num">probability floor</span></h4>
+          <p>Min-P sampling sets a minimum threshold for the probability of selecting a token during generation. Tokens with probabilities below this threshold are excluded — which helps maintain coherence while still allowing some randomness.</p>
+        </div>
+
+        <div class="setting">
+          <h4>Max Tokens <span class="num">reply length</span></h4>
+          <p>This controls the length of the AI's replies. I keep mine around <strong>300 tokens</strong> because I like 3–4 paragraph replies, but you can slide it up to 1500 — or type in up to 3000 — for extra long replies.</p>
+        </div>
+
+        <div class="heads-up">
+          <span class="label">myth-busting</span>
+          <p>No — cranking Max Tokens up to max will <strong>NOT</strong> cost more credits. Common misconception. Crank away.</p>
+        </div>
+
+        <details class="peek">
+          <summary>Want a deeper dive?<span class="ptag">link —</span></summary>
+          <div class="peek-body">
+            <p class="soft"><em>[ Link to DJAI's "what are these model settings?" guide here. ]</em></p>
+          </div>
+        </details>
+      </article>
+
+      <nav class="chapter-nav" data-chapter-nav></nav>
+    </section>
+
+    <!-- ============ FAQ VIEW ============ -->
+    <section class="view" data-view="faq" style="--c:var(--c-faq)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">FAQ</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">questions we get a lot —</span>
+        <h1>The <em>FAQ</em></h1>
+        <p class="intro">The same questions, asked by everyone, eventually. <span class="soft">Tap one to expand. If yours isn't here, the <a href="#discord" style="color:var(--c-discord);text-decoration:underline">Discord</a> is the fastest way to ask a human.</span></p>
+      </header>
+
+      <article class="chapter active" data-chapter="faq">
+        <h3 class="faq-group">Building bots <span class="accent">— the basics</span></h3>
+
+        <details class="peek">
+          <summary>How long should my Persona be?<span class="ptag">short answer —</span></summary>
+          <div class="peek-body">
+            <p>Around <strong>6–7 sentences max</strong>. More than that and the bot actually gets <em>less</em> consistent, not more. The model has to pick what matters from a longer prompt, and it doesn't always pick well. Trust the squeeze. <a href="#character-bots:persona" style="color:var(--c-bots);text-decoration:underline">More in Persona →</a></p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Why does my bot keep wearing the same outfit, even after I set it on fire?<span class="ptag">classic —</span></summary>
+          <div class="peek-body">
+            <p>You probably named the outfit in the Persona. The Persona is treated as a constant reference, so anything you write there sticks like glue. Move outfit details to <a href="#character-bots:details" style="color:var(--c-bots);text-decoration:underline">Details</a>, and describe their general style ("dresses sharply, leans dark") rather than a specific outfit ("black leather jacket, ripped jeans").</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>What's the difference between Persona and Context?<span class="ptag">often confused —</span></summary>
+          <div class="peek-body">
+            <p>Persona is <strong>who they are</strong> — permanent traits the bot leans on forever. Context is <strong>what's happening right now</strong> — temporary stuff that fades after about 5–10 messages. If you want the bot to be grumpy <em>today</em>, that's Context. If they're a grumpy person at their core, that's Persona.</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Character bots vs scenario bots — which one do I need?<span class="ptag">depends —</span></summary>
+          <div class="peek-body">
+            <p>If the story is about <strong>one specific person</strong> and how the user relates to them — that's a character bot. If the story is about a <strong>world or situation</strong> where many people exist and the user moves through it — scenario bot. They can also overlap. <a href="#scenario-bots:whats-different" style="color:var(--c-bots);text-decoration:underline">More on the difference →</a></p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Can I change a bot's writing style if I hate it?<span class="ptag">yes —</span></summary>
+          <div class="peek-body">
+            <p>If it's your bot, add a line to the Persona or Author's Note like <code>Prose: standard paragraphs, complete sentences</code>. If it's someone else's, you can fight it with system prompts and OOC notes, but a hard-prompted style can be stubborn. <a href="#prose" style="color:var(--c-tips);text-decoration:underline">More on prose styles →</a></p>
+          </div>
+        </details>
+
+        <h3 class="faq-group">Lorebooks &amp; memory <span class="accent">— it's all storage</span></h3>
+
+        <details class="peek">
+          <summary>My lorebook won't save. What gives?<span class="ptag">checklist —</span></summary>
+          <div class="peek-body">
+            <p>Run through these first:</p>
+            <ul>
+              <li>Do <strong>all</strong> entries have trigger words, a category, a name, and a description?</li>
+              <li>Is any one entry maxed out? Try keeping each under ~800 characters.</li>
+              <li>Did you import a JSON? It glitches sometimes. Re-import or add entries by hand, and save frequently.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Why does my bot mention things I never told it about?<span class="ptag">cascade —</span></summary>
+          <div class="peek-body">
+            <p>You're hitting <strong>cascade</strong> — a trigger word inside your bot's guts is pulling in a lorebook entry you didn't want active. The fix is the underscore trick: write the trigger word as <code>_word</code> or <code>word_</code> in the bot's guts so it doesn't activate the entry. <a href="#lorebooks:cascade" style="color:var(--c-lore);text-decoration:underline">More on cascade →</a></p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>The bot forgot something important — what do I do?<span class="ptag">memory —</span></summary>
+          <div class="peek-body">
+            <p>The chat's context window is short-term memory and it fills up fast. For things you want remembered long-term, put them in the Memory Nexus or a lorebook entry with a clear trigger. For things you need <em>right now</em>, drop them into <a href="#character-bots:context" style="color:var(--c-bots);text-decoration:underline">Context</a> or remind the bot directly in-chat.</p>
+          </div>
+        </details>
+
+        <h3 class="faq-group">Settings &amp; credits <span class="accent">— the dials</span></h3>
+
+        <details class="peek">
+          <summary>Does cranking Max Tokens to the limit cost more credits?<span class="ptag">no —</span></summary>
+          <div class="peek-body">
+            <p>No. This one comes up constantly. Max Tokens is just a ceiling — the model only generates what it needs. Setting the ceiling high doesn't make it write longer; it just lets it write longer when it wants to. Crank away. <a href="#settings:advanced-settings" style="color:var(--c-faq);text-decoration:underline">More on settings →</a></p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>What temperature should I use?<span class="ptag">around 0.8 —</span></summary>
+          <div class="peek-body">
+            <p>0.8 is a comfy middle. Lower (0.6–0.7) for bots that need to follow lore/instructions tightly. Higher (1.0–1.2) for creativity, but you may need to bump Min-P up too or it'll start hallucinating. If you see gibberish, lower the temp or raise Min-P.</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Do system prompts affect everyone using the bot, or just me?<span class="ptag">just you —</span></summary>
+          <div class="peek-body">
+            <p>Just you. System prompts are personal — they only shape <em>your</em> chats. Other users have their own. Great place to enforce a writing style, POV, or anti-cliché list without bothering anyone else.</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>My replies are suddenly gibberish. What broke?<span class="ptag">probably temp —</span></summary>
+          <div class="peek-body">
+            <p>Nine times out of ten it's Temperature too high or Min-P too low. Try Temp around 0.8 and a small Min-P value as a sane baseline. If it's still gibberish, try a different model — sometimes a model just has an off day.</p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>Should I use a custom system prompt with thinking models?<span class="ptag">go minimal —</span></summary>
+          <div class="peek-body">
+            <p>For thinking models, lean toward the <strong>default</strong> or a <em>very</em> minimal custom system prompt. Their internal chain-of-thought is doing a lot already, and elaborate instructions can collide with it and trigger weirder outputs.</p>
+          </div>
+        </details>
+
+        <h3 class="faq-group">Dreamscapes <span class="accent">— the visual layer</span></h3>
+
+        <details class="peek">
+          <summary>Why isn't my Dreamscape generating in chat?<span class="ptag">temporary —</span></summary>
+          <div class="peek-body">
+            <p>In-chat Dreamscapes are currently turned off platform-side. The editor still works for setting them up, and once they're switched back on, your bot will be ready. <a href="#dreamscapes" style="color:var(--c-dream);text-decoration:underline">More on Dreamscapes →</a></p>
+          </div>
+        </details>
+
+        <details class="peek">
+          <summary>My Dreamscape keeps showing the wrong character. Help?<span class="ptag">usually description —</span></summary>
+          <div class="peek-body">
+            <p>The generator pulls heavily from the bot's appearance description. If eye color, hair, or notable features are vague, it improvises. Add a clear reference image and tighten the description. The instruction <code>focus, closeup on {charactername}</code> also helps keep the camera on the right person. <a href="#dreamscapes:tips" style="color:var(--c-dream);text-decoration:underline">More tips →</a></p>
+          </div>
+        </details>
+
+        <h3 class="faq-group">Misc <span class="accent">— odds &amp; ends</span></h3>
+
+        <details class="peek">
+          <summary>I have a question that isn't here.<span class="ptag">come say hi —</span></summary>
+          <div class="peek-body">
+            <p>The fastest answer is in <a href="#discord" style="color:var(--c-discord);text-decoration:underline">the Discord</a>. There's almost always someone awake who's hit the same problem. If you'd like us to add your question to this page, message us — that's how this list got built in the first place.</p>
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <!-- ============ GLOSSARY VIEW ============ -->
+    <section class="view" data-view="glossary" style="--c:var(--c-gloss)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Glossary</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">decode the lingo —</span>
+        <h1>The <em>Glossary</em></h1>
+        <p class="intro">Every confusing word, explained like a normal person would.</p>
+      </header>
+
+      <dl class="glossary-grid">
+        <div class="term">
+          <dt>LLM</dt>
+          <dd>Large Language Model. The AI you talk to in chat — basically the "brain" behind the bot.</dd>
+        </div>
+        <div class="term">
+          <dt>Tokens</dt>
+          <dd>Small chunks of text the AI reads and writes. A token can be a whole word, part of a word, punctuation — anything.</dd>
+        </div>
+        <div class="term">
+          <dt>Context Window</dt>
+          <dd>How much information the AI can remember at one time during a conversation. Short-term memory. (The Nexus is long-term memory.)</dd>
+        </div>
+        <div class="term">
+          <dt>Guts</dt>
+          <dd>The stuff that makes the bot act the way it does. Includes the persona and details — everything in the bot's permanent prompt.</dd>
+        </div>
+        <div class="term">
+          <dt>Prompt</dt>
+          <dd>Instructions you give the AI. The better your prompt, the better the response.</dd>
+        </div>
+        <div class="term">
+          <dt>Cascade / Context Flood</dt>
+          <dd>When too much information gets pulled into the chat at once, usually from too many lorebook entries triggering. Confuses the bot or makes it ignore important details.</dd>
+        </div>
+        <div class="term">
+          <dt>Prose</dt>
+          <dd>Normal writing — how a character talks, narrates, or describes things in sentences and paragraphs.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ============ DISCORD VIEW ============ -->
+    <section class="view" data-view="discord" style="--c:var(--c-discord)">
+      <nav class="breadcrumb">
+        <a href="#home">Home</a><span class="sep">/</span><span class="here">Discord</span>
+      </nav>
+      <header class="view-header">
+        <span class="eyebrow">come hang out —</span>
+        <h1>The <em>Discord</em></h1>
+        <p class="intro">Where the conversation actually happens. <span class="soft">Other bot makers, behind-the-scenes chatter, dumb jokes, real help when you're stuck at 2 AM on a stubborn lorebook.</span></p>
+      </header>
+
+      <article class="chapter active" data-chapter="discord">
+        <h3>Why it's worth joining</h3>
+        <ul>
+          <li>People who actually know how the platform works — and answer questions fast</li>
+          <li>Hands-on help with stuck bots, broken lorebooks, weird LLM behavior</li>
+          <li>Workshops and events where folks share their builds and break them down</li>
+          <li>Sneak peeks at new platform features, sometimes before the announcements</li>
+          <li>Honestly, just vibes. It's a friendly server.</li>
+        </ul>
+
+        <h3>What's inside <span class="accent">— a quick tour</span></h3>
+        <p>The channels we hang out in most:</p>
+
+        <div class="prose-grid">
+          <div class="prose-card">
+            <div class="pname">#help</div>
+            <div class="pdesc">[ Describe what this channel is for — newcomer questions, specific bot issues, whatever you actually use it for. ]</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">#bot-showcase</div>
+            <div class="pdesc">[ The channel where folks share what they're building. Replace with your actual name. ]</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">#lorebook-clinic</div>
+            <div class="pdesc">[ Or whatever you call your "post your broken lorebook here" channel. ]</div>
+          </div>
+          <div class="prose-card">
+            <div class="pname">#dreamscape-share</div>
+            <div class="pdesc">[ Where people drop the gorgeous Dreamscapes they've made. ]</div>
+          </div>
+        </div>
+
+        <h3>Events &amp; credit giveaways <span class="accent">— our favorite part</span></h3>
+        <p>We run a few things in the server you can't get anywhere else:</p>
+
+        <div class="callout" style="--c:var(--c-tips)">
+          <span class="clab">credit giveaways</span>
+          <p>[ Describe how often you do these, the rough prize, and how folks enter. e.g. "Every Friday we drop 500 credits in #giveaways — react with the cherry emoji to enter, winners drawn Sunday night." ]</p>
+        </div>
+
+        <div class="callout" style="--c:var(--c-lore)">
+          <span class="clab">monthly bot jam</span>
+          <p>[ Describe your recurring community event. The prompt, the theme, the deadline, prizes if any. ]</p>
+        </div>
+
+        <div class="callout" style="--c:var(--c-bots)">
+          <span class="clab">workshops</span>
+          <p>[ How often you host live workshops, what they cover, where to see when one's coming up. ]</p>
+        </div>
+
+        <div class="heads-up">
+          <span class="label">a tiny ask</span>
+          <p>Be kind, no spam, no drama. We're a small server and we like it that way. Full rules are in the welcome channel — they're short and reasonable, promise.</p>
+        </div>
+
+        <h3>How to join</h3>
+        <p>Free, friendly, no hoops. Click the button, accept the rules, say hi in welcome.</p>
+
+        <div class="cta-wrap">
+          <a class="cta-btn" href="[ DROP YOUR DISCORD INVITE LINK HERE ]" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.27 5.33A19.79 19.79 0 0 0 15.18 4l-.21.4a16 16 0 0 0-5.94 0L8.82 4a19.79 19.79 0 0 0-4.09 1.33C2.05 9.33 1.27 13.23 1.66 17.07a19.94 19.94 0 0 0 5.97 3 .08.08 0 0 0 .09-.04l1.34-2.13a13.21 13.21 0 0 1-2.04-.98.08.08 0 0 1 0-.13c.14-.1.27-.21.4-.31a.08.08 0 0 1 .08-.01c4.13 1.88 8.61 1.88 12.69 0a.08.08 0 0 1 .08.01c.13.1.26.21.4.31a.08.08 0 0 1 0 .13 12.4 12.4 0 0 1-2.04.98l1.34 2.13a.08.08 0 0 0 .09.04 19.94 19.94 0 0 0 5.97-3c.5-4.45-.78-8.31-3.07-11.74ZM8.52 14.7c-1.18 0-2.16-1.08-2.16-2.4 0-1.31.96-2.39 2.16-2.39 1.2 0 2.18 1.09 2.16 2.4 0 1.31-.97 2.39-2.16 2.39Zm6.96 0c-1.18 0-2.16-1.08-2.16-2.4 0-1.31.97-2.39 2.16-2.39 1.2 0 2.18 1.09 2.16 2.4 0 1.31-.96 2.39-2.16 2.39Z"/>
+            </svg>
+            Join the Discord
+          </a>
+          <p class="cta-sub">[ Optional: member count or vanity URL, e.g. "join 2,400+ bot makers" ]</p>
+        </div>
+      </article>
+    </section>
+
+  </main>
+
+<script>
+  // ============ STARS ============
+  (function(){
+    var s=document.getElementById('stars');
+    for(var i=0;i<75;i++){
+      var e=document.createElement('span');
+      e.className='star';
+      var z=Math.random()*2+1;
+      e.style.width=e.style.height=z+'px';
+      e.style.left=Math.random()*100+'%';
+      e.style.top=Math.random()*100+'%';
+      e.style.setProperty('--d',(Math.random()*4+2.5)+'s');
+      e.style.setProperty('--delay',(Math.random()*5)+'s');
+      s.appendChild(e);
+    }
+  })();
+
+  // ============ CHAPTER METADATA (for prev/next & search) ============
+  var VIEWS = {
+    'home': { title: 'Home', chapters: [] },
+    'your-persona': { title: 'Your Persona', chapters: [] },
+    'character-bots': {
+      title: 'Character Bots',
+      chapters: [
+        { id:'persona', label:'Persona' },
+        { id:'open-questions', label:'Open-ended Questions' },
+        { id:'details', label:'Details' },
+        { id:'first-message', label:'First Message' },
+        { id:'context', label:'Context' },
+        { id:'authors-comment', label:"Author's Comment" },
+        { id:'scenes', label:'Scenes' }
+      ]
+    },
+    'scenario-bots': {
+      title: 'Scenario Bots',
+      chapters: [
+        { id:'whats-different', label:"What's Different" },
+        { id:'scenario-instructions', label:'Instructions' },
+        { id:'scenario-details', label:'Details' }
+      ]
+    },
+    'prose': { title: 'Prose & Style', chapters: [{ id:'styles', label:'Seven Styles' }] },
+    'lorebooks': {
+      title: 'Lorebooks',
+      chapters: [
+        { id:'what-is', label:'What is a Lorebook?' },
+        { id:'trigger-words', label:'Trigger Words' },
+        { id:'cascade', label:'Avoiding Cascade' }
+      ]
+    },
+    'dreamscapes': {
+      title: 'Dreamscapes',
+      chapters: [
+        { id:'what-is', label:'What are they?' },
+        { id:'creating', label:'Creating One' },
+        { id:'tips', label:'Tips & Tricks' }
+      ]
+    },
+    'genning-images': { title: 'Genning Your Images', chapters: [] },
+    'tips-tricks': {
+      title: 'Tips & Tricks',
+      chapters: [
+        { id:'prompts', label:'Prompt Power-Ups' },
+        { id:'behavior', label:'Behavior Hacks' },
+        { id:'workflow', label:'Workflow Secrets' },
+        { id:'long-images', label:'Long Images' }
+      ]
+    },
+    'settings': {
+      title: 'Settings',
+      chapters: [
+        { id:'system-prompts', label:'System Prompts' },
+        { id:'advanced-settings', label:'Advanced Settings' }
+      ]
+    },
+    'faq': { title: 'FAQ', chapters: [] },
+    'glossary': { title: 'Glossary', chapters: [] },
+    'discord': { title: 'Discord', chapters: [] }
+  };
+
+  // ============ ROUTER ============
+  function parseHash(){
+    var h = location.hash.replace(/^#/, '');
+    if(!h) return { view:'home', chapter:null };
+    var parts = h.split(':');
+    var view = parts[0];
+    if(!VIEWS[view]) return { view:'home', chapter:null };
+    return { view: view, chapter: parts[1] || null };
+  }
+
+  function route(){
+    var r = parseHash();
+    showView(r.view, r.chapter);
+  }
+
+  function showView(viewName, chapterId){
+    // toggle views
+    var views = document.querySelectorAll('.view');
+    views.forEach(function(v){
+      v.classList.toggle('active', v.getAttribute('data-view') === viewName);
+    });
+
+    // update top nav active state
+    document.querySelectorAll('[data-view-link]').forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('data-view-link') === viewName);
+    });
+
+    // chapter activation
+    var v = VIEWS[viewName];
+    if(v && v.chapters.length){
+      var target = chapterId;
+      var valid = v.chapters.some(function(c){ return c.id === target; });
+      if(!valid) target = v.chapters[0].id;
+      activateChapter(viewName, target);
+    }
+
+    // scroll to top of main content
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+
+    // close drawer if open
+    document.body.classList.remove('nav-open');
+  }
+
+  function activateChapter(viewName, chapterId){
+    var viewEl = document.querySelector('[data-view="'+viewName+'"]');
+    if(!viewEl) return;
+
+    // chapters
+    viewEl.querySelectorAll('.chapter').forEach(function(c){
+      c.classList.toggle('active', c.getAttribute('data-chapter') === chapterId);
+    });
+    // tabs
+    viewEl.querySelectorAll('.tabs button').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-tab') === chapterId);
+    });
+    // prev/next nav
+    buildChapterNav(viewEl, viewName, chapterId);
+    // scroll active tab into view
+    var activeTab = viewEl.querySelector('.tabs button.active');
+    if(activeTab && activeTab.scrollIntoView){
+      try{ activeTab.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' }); }catch(e){}
+    }
+  }
+
+  function buildChapterNav(viewEl, viewName, chapterId){
+    var navEl = viewEl.querySelector('[data-chapter-nav]');
+    if(!navEl) return;
+    var chs = VIEWS[viewName].chapters;
+    var idx = -1;
+    for(var i=0;i<chs.length;i++){ if(chs[i].id===chapterId){ idx=i; break; } }
+    if(idx<0){ navEl.innerHTML=''; return; }
+    var prev = idx>0 ? chs[idx-1] : null;
+    var next = idx<chs.length-1 ? chs[idx+1] : null;
+    var html = '';
+    if(prev){
+      html += '<a href="#'+viewName+':'+prev.id+'"><span class="dir">← previous</span><span class="ttl">'+prev.label+'</span></a>';
+    } else {
+      html += '<a href="#home"><span class="dir">← back</span><span class="ttl">Home</span></a>';
+    }
+    if(next){
+      html += '<a class="next" href="#'+viewName+':'+next.id+'"><span class="dir">next →</span><span class="ttl">'+next.label+'</span></a>';
+    } else {
+      html += '<a class="next" href="#home"><span class="dir">done →</span><span class="ttl">Back to Home</span></a>';
+    }
+    navEl.innerHTML = html;
+  }
+
+  // ============ TABS ============
+  document.querySelectorAll('.tabs').forEach(function(tabBar){
+    tabBar.addEventListener('click', function(e){
+      var btn = e.target.closest('button[data-tab]');
+      if(!btn) return;
+      var viewEl = tabBar.closest('[data-view]');
+      var viewName = viewEl.getAttribute('data-view');
+      var chapterId = btn.getAttribute('data-tab');
+      location.hash = '#' + viewName + ':' + chapterId;
+    });
+  });
+
+  // ============ MOBILE DRAWER ============
+  var burger = document.getElementById('burger');
+  var backdrop = document.getElementById('backdrop');
+  var drawerClose = document.getElementById('drawer-close');
+  burger.addEventListener('click', function(){ document.body.classList.add('nav-open'); });
+  backdrop.addEventListener('click', function(){ document.body.classList.remove('nav-open'); });
+  drawerClose.addEventListener('click', function(){ document.body.classList.remove('nav-open'); });
+
+  // ============ SEARCH ============
+  var searchBtn = document.getElementById('search-btn');
+  var searchModal = document.getElementById('search-modal');
+  var searchInput = document.getElementById('search-input');
+  var searchResults = document.getElementById('search-results');
+
+  // build search index from content
+  var INDEX = [];
+  Object.keys(VIEWS).forEach(function(vname){
+    var vmeta = VIEWS[vname];
+    if(vname === 'home') return;
+    var viewEl = document.querySelector('[data-view="'+vname+'"]');
+    if(!viewEl) return;
+    if(vmeta.chapters.length === 0){
+      // glossary or single-chapter
+      INDEX.push({
+        title: vmeta.title,
+        body: viewEl.textContent.toLowerCase(),
+        href: '#' + vname,
+        section: vmeta.title
+      });
+      // also index glossary terms individually
+      viewEl.querySelectorAll('.term').forEach(function(t){
+        var dt = t.querySelector('dt');
+        var dd = t.querySelector('dd');
+        if(dt) INDEX.push({
+          title: dt.textContent,
+          body: (dt.textContent + ' ' + (dd ? dd.textContent : '')).toLowerCase(),
+          href: '#' + vname,
+          section: vmeta.title
+        });
+      });
+    } else {
+      vmeta.chapters.forEach(function(c){
+        var chEl = viewEl.querySelector('[data-chapter="'+c.id+'"]');
+        if(!chEl) return;
+        INDEX.push({
+          title: c.label,
+          body: chEl.textContent.toLowerCase(),
+          href: '#' + vname + ':' + c.id,
+          section: vmeta.title
+        });
+      });
+    }
+  });
+
+  // section color lookup for result dots
+  var SECTION_COLORS = {
+    'Your Persona': 'var(--c-start)',
+    'Character Bots': 'var(--c-bots)',
+    'Scenario Bots': 'var(--c-bots)',
+    'Prose & Style': 'var(--c-tips)',
+    'Lorebooks': 'var(--c-lore)',
+    'Dreamscapes': 'var(--c-dream)',
+    'Genning Your Images': 'var(--c-genai)',
+    'Tips & Tricks': 'var(--c-secret)',
+    'Settings': 'var(--c-faq)',
+    'FAQ': 'var(--c-faq)',
+    'Glossary': 'var(--c-gloss)',
+    'Discord': 'var(--c-discord)'
+  };
+
+  function openSearch(){
+    searchModal.classList.add('open');
+    setTimeout(function(){ searchInput.focus(); }, 30);
+    renderSearchResults('');
+  }
+  function closeSearch(){
+    searchModal.classList.remove('open');
+    searchInput.value = '';
+  }
+
+  function renderSearchResults(q){
+    q = q.trim().toLowerCase();
+    var matches;
+    if(!q){
+      // show top of each section
+      matches = INDEX.slice(0, 7);
+    } else {
+      matches = INDEX.filter(function(it){
+        return it.body.indexOf(q) !== -1 || it.title.toLowerCase().indexOf(q) !== -1;
+      }).slice(0, 20);
+    }
+    if(!matches.length){
+      searchResults.innerHTML = '<div class="empty">Hmm, nothing matches "'+q.replace(/[<>&"]/g,'')+'" — try another word?</div>';
+      return;
+    }
+    var html = '';
+    matches.forEach(function(m, i){
+      var color = SECTION_COLORS[m.section] || 'var(--c-lore)';
+      html += '<a href="'+m.href+'" data-search-result="'+i+'">'+
+              '<span class="res-dot" style="--c:'+color+'"></span>'+
+              '<span>'+m.title+'</span>'+
+              '<span class="res-section">'+m.section+'</span>'+
+              '</a>';
+    });
+    searchResults.innerHTML = html;
+  }
+
+  searchBtn.addEventListener('click', openSearch);
+  searchInput.addEventListener('input', function(){ renderSearchResults(searchInput.value); });
+  searchResults.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if(a){ closeSearch(); }
+  });
+  searchModal.addEventListener('click', function(e){
+    if(e.target === searchModal) closeSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    // cmd/ctrl + k
+    if((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'){
+      e.preventDefault();
+      if(searchModal.classList.contains('open')) closeSearch();
+      else openSearch();
+      return;
+    }
+    // / to open search when not focused on an input
+    if(e.key === '/' && document.activeElement && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
+      e.preventDefault();
+      openSearch();
+      return;
+    }
+    // esc to close
+    if(e.key === 'Escape' && searchModal.classList.contains('open')){
+      closeSearch();
+    }
+    // arrow nav within search
+    if(searchModal.classList.contains('open') && (e.key === 'Enter' || e.key === 'ArrowDown' || e.key === 'ArrowUp')){
+      var items = Array.prototype.slice.call(searchResults.querySelectorAll('a'));
+      if(!items.length) return;
+      var current = searchResults.querySelector('a.cursor');
+      var idx = current ? items.indexOf(current) : -1;
+      if(e.key === 'Enter'){
+        if(current){ e.preventDefault(); current.click(); }
+        else if(items[0]){ e.preventDefault(); items[0].click(); }
+        return;
+      }
+      e.preventDefault();
+      if(e.key === 'ArrowDown') idx = Math.min(items.length-1, idx+1);
+      else idx = Math.max(0, idx-1);
+      items.forEach(function(it){ it.classList.remove('cursor'); });
+      items[idx].classList.add('cursor');
+      items[idx].scrollIntoView({ block:'nearest' });
+    }
+  });
+
+  // ============ HASH HANDLING ============
+  window.addEventListener('hashchange', route);
+  // initial route
+  route();
+
+  // intercept link clicks that point to same hash so we still scroll-to-top
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var href = a.getAttribute('href');
+    if(href === location.hash){
+      // re-trigger route to scroll up
+      e.preventDefault();
+      route();
+    }
+  });
+</script>
+</body>
+</html>
