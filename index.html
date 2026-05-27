@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Dreamjourney Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#000003;
+    --gold:#e8c98a;
+    --cream:#f6eee6;
+    --moon:#e7ddf2;
+    --muted:#9c93b4;
+    --faint:#6b6486;
+    --card:rgba(255,255,255,.04);
+    --edge:rgba(255,255,255,.09);
+    --edge-soft:rgba(255,255,255,.06);
+
+    /* playful, color-coded sections (also helps you find things fast) */
+    --c-start:#e8c98a;
+    --c-bots:#7aa6ff;
+    --c-tips:#f2a0c4;
+    --c-lore:#bb8af0;
+    --c-faq:#74e0cf;
+    --c-gloss:#c3a4ee;
+
+    --serif:"Fraunces",Georgia,serif;
+    --sans:"Hanken Grotesk",-apple-system,sans-serif;
+    --hand:"Caveat",cursive;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--ink);color:var(--moon);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+
+  /* ===== night sky ===== */
+  .sky{position:fixed;inset:0;z-index:-3;
+    background:
+      radial-gradient(150% 95% at 82% -12%, rgba(110,90,235,.26), transparent 55%),
+      radial-gradient(130% 85% at 5% 112%, rgba(70,110,240,.24), transparent 55%),
+      linear-gradient(180deg,#000002 0%,#020210 48%,#06031c 100%);}
+  .stars{position:fixed;inset:0;z-index:-2;pointer-events:none}
+  .star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d,4s) ease-in-out infinite var(--delay,0s)}
+  @keyframes tw{0%,100%{opacity:.12;transform:scale(.7)}50%{opacity:.9;transform:scale(1.15)}}
+  .grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ===== layout ===== */
+  .layout{display:flex;min-height:100vh}
+
+  /* ===== sidebar ===== */
+  .sidebar{width:296px;flex:none;position:sticky;top:0;height:100vh;overflow-y:auto;
+    border-right:1px solid var(--edge-soft);padding:22px 18px 30px;
+    background:linear-gradient(180deg,rgba(8,6,22,.6),rgba(2,2,12,.35));backdrop-filter:blur(8px);z-index:40}
+  .sidebar::-webkit-scrollbar{width:8px}
+  .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+  .side-brand{display:flex;align-items:center;gap:11px;padding:6px 8px 18px;text-decoration:none}
+  .orb{width:30px;height:30px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 32% 28%,#fff,var(--c-lore) 38%,#5b3aa0 100%);
+    box-shadow:0 0 18px rgba(187,138,240,.6)}
+  .side-brand b{font-family:var(--serif);font-weight:500;font-size:1.05rem;color:var(--cream);line-height:1.15}
+  .side-brand span{font-family:var(--hand);font-size:1rem;color:var(--c-tips);display:block;margin-top:-2px}
+
+  .search{position:relative;margin:4px 4px 18px}
+  .search input{width:100%;padding:11px 14px 11px 38px;border-radius:12px;border:1px solid var(--edge);
+    background:rgba(255,255,255,.04);color:var(--cream);font-family:var(--sans);font-size:.9rem;outline:none;transition:border-color .25s}
+  .search input::placeholder{color:var(--faint)}
+  .search input:focus{border-color:var(--c-lore)}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--faint);fill:none;stroke-width:1.8}
+
+  .navgroup{margin-bottom:4px}
+  .grouphead{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;cursor:pointer;
+    padding:9px 10px;border-radius:9px;color:var(--cream);font-family:var(--sans);font-weight:600;font-size:.82rem;
+    letter-spacing:.04em;text-align:left;transition:background .2s}
+  .grouphead:hover{background:rgba(255,255,255,.04)}
+  .grouphead .dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c);box-shadow:0 0 8px var(--c)}
+  .grouphead .chev{margin-left:auto;width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:2;transition:transform .3s}
+  .navgroup.closed .chev{transform:rotate(-90deg)}
+  .groupwrap{display:grid;grid-template-rows:1fr;transition:grid-template-rows .32s ease}
+  .navgroup.closed .groupwrap{grid-template-rows:0fr}
+  .grouplist{overflow:hidden;min-height:0;list-style:none;padding-left:18px;margin-left:8px;
+    border-left:1px solid var(--edge-soft)}
+  .grouplist a{display:block;text-decoration:none;color:var(--muted);font-size:.86rem;padding:7px 12px;
+    border-radius:8px;transition:color .2s,background .2s;position:relative}
+  .grouplist a:hover{color:var(--cream);background:rgba(255,255,255,.04)}
+  .grouplist a.active{color:var(--cream);background:rgba(255,255,255,.06)}
+  .grouplist a.active::before{content:"";position:absolute;left:-9px;top:50%;transform:translateY(-50%);
+    width:3px;height:16px;border-radius:3px;background:var(--c-lore)}
+  .grouplist .tag{font-family:var(--hand);font-size:.85rem;color:var(--c-tips);margin-left:6px}
+  .nohit{display:none;color:var(--faint);font-size:.84rem;padding:10px 12px;font-style:italic}
+
+  .side-foot{margin-top:22px;padding:14px 12px 0;border-top:1px solid var(--edge-soft);
+    font-family:var(--hand);font-size:1.05rem;color:var(--muted);line-height:1.3}
+  .side-foot .heart{color:var(--c-tips)}
+
+  /* ===== main ===== */
+  main{flex:1;min-width:0;padding:0 clamp(22px,5vw,72px) 80px;max-width:1000px;margin:0 auto}
+  .topbar{display:none}
+
+  /* welcome */
+  .welcome{padding:clamp(48px,9vh,96px) 0 30px;max-width:720px}
+  .hi{font-family:var(--hand);font-size:1.7rem;color:var(--c-tips);transform:rotate(-2deg);display:inline-block;margin-bottom:6px}
+  .welcome h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,6vw,4rem);line-height:1.02;
+    letter-spacing:-.02em;color:var(--cream);margin-bottom:20px}
+  .welcome h1 em{font-style:italic;background:linear-gradient(110deg,#a9c4ff,var(--c-lore) 55%,#d6c4ff);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .welcome p{font-size:1.12rem;color:var(--moon);max-width:600px}
+  .welcome p .soft{color:var(--muted)}
+
+  .stickynote{display:inline-flex;align-items:center;gap:14px;margin-top:30px;padding:16px 22px;border-radius:4px;
+    background:linear-gradient(180deg,rgba(242,160,196,.16),rgba(242,160,196,.08));border:1px solid rgba(242,160,196,.25);
+    transform:rotate(-1.4deg);position:relative;font-family:var(--hand);font-size:1.35rem;color:var(--cream)}
+  .stickynote::before{content:"";position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(3deg);
+    width:60px;height:18px;background:rgba(255,255,255,.14);border-radius:2px}
+  .stickynote a{color:var(--c-tips);text-decoration:none;white-space:nowrap}
+  .stickynote .arrow{width:38px;height:24px;stroke:var(--c-tips);fill:none;stroke-width:2;stroke-linecap:round}
+
+  /* section label */
+  .seclabel{display:flex;align-items:baseline;gap:14px;margin:64px 0 26px}
+  .seclabel h2{font-family:var(--serif);font-weight:400;font-size:1.9rem;color:var(--cream)}
+  .seclabel .scrawl{font-family:var(--hand);font-size:1.4rem;color:var(--muted)}
+  .seclabel .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+
+  /* start tabs (color-coded, taped index cards) */
+  .tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:18px}
+  .tab{position:relative;display:block;text-decoration:none;padding:24px 22px 22px;border-radius:14px;
+    background:var(--card);border:1px solid var(--edge);overflow:hidden;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .35s,background .35s;
+    transform:rotate(var(--r,0deg))}
+  .tab:nth-child(3n+1){--r:-.8deg}.tab:nth-child(3n+2){--r:.7deg}.tab:nth-child(3n){--r:-.4deg}
+  .tab::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--c)}
+  .tab:hover{transform:rotate(0deg) translateY(-6px);border-color:var(--c);background:rgba(255,255,255,.06)}
+  .tab .lab{display:inline-flex;align-items:center;gap:9px;font-size:.72rem;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:700;color:var(--c);margin-bottom:12px}
+  .tab .lab .pin{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
+  .tab h3{font-family:var(--serif);font-weight:500;font-size:1.45rem;color:var(--cream);margin-bottom:8px}
+  .tab p{font-size:.94rem;color:var(--muted);line-height:1.55}
+  .tab .count{margin-top:14px;font-size:.8rem;color:var(--faint)}
+
+  /* fresh list */
+  .fresh{display:flex;flex-direction:column;gap:2px;max-width:720px}
+  .fresh a{display:flex;align-items:center;gap:14px;text-decoration:none;padding:15px 16px;border-radius:11px;
+    transition:background .25s;border:1px solid transparent}
+  .fresh a:hover{background:rgba(255,255,255,.04);border-color:var(--edge-soft)}
+  .fresh .dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--c);box-shadow:0 0 8px var(--c)}
+  .fresh .ftitle{font-size:1rem;color:var(--cream);font-weight:500}
+  .fresh .fmeta{margin-left:auto;font-size:.82rem;color:var(--faint);white-space:nowrap}
+  .fresh .new{font-family:var(--hand);font-size:1.15rem;color:var(--c-tips);transform:rotate(-4deg)}
+
+  /* meet guides */
+  .guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:760px}
+  .guide{display:flex;gap:18px;padding:24px;border-radius:16px;background:var(--card);border:1px solid var(--edge)}
+  .avatar{flex:none;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
+    font-family:var(--serif);font-size:1.5rem;font-weight:600;color:#160e22}
+  .av-e{background:radial-gradient(circle at 35% 30%,#ffd0e0,var(--c-tips) 70%)}
+  .av-c{background:radial-gradient(circle at 35% 30%,#d8c4ff,var(--c-lore) 70%)}
+  .guide h4{font-family:var(--serif);font-weight:500;font-size:1.2rem;color:var(--cream)}
+  .guide .sig{font-family:var(--hand);font-size:1.05rem;color:var(--gold);margin-bottom:8px}
+  .guide p{font-size:.9rem;color:var(--muted)}
+
+  footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--edge-soft);
+    font-size:.85rem;color:var(--faint)}
+  footer .heart{color:var(--c-tips)}
+
+  .fade{opacity:0;transform:translateY(18px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.28s}.d4{animation-delay:.4s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* ===== chapter content ===== */
+  .chapter{padding:56px 0 24px;border-top:1px solid var(--edge-soft);scroll-margin-top:24px}
+  .chapter.first{border-top:none;padding-top:30px}
+  .ch-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+  .ch-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.4vw,2.7rem);
+    color:var(--cream);letter-spacing:-.015em;line-height:1.05}
+  .ch-head h2 em{font-style:italic;color:var(--c)}
+  .ch-head .scrawl{font-family:var(--hand);font-size:1.35rem;color:var(--muted);
+    transform:rotate(-1.5deg);display:inline-block}
+  .ch-head .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--c),transparent);min-width:60px;
+    align-self:center;opacity:.45}
+  .chapter > p{max-width:720px;color:var(--moon);font-size:1.02rem;line-height:1.72;margin-bottom:16px}
+  .chapter > p .soft{color:var(--muted)}
+  .chapter p strong, .chapter li strong{color:var(--cream);font-weight:600}
+  .chapter h3{font-family:var(--serif);font-weight:500;font-size:1.45rem;color:var(--cream);
+    margin:34px 0 12px;letter-spacing:-.005em}
+  .chapter h3 .accent{font-family:var(--hand);font-size:1.05rem;color:var(--c);margin-left:8px;font-weight:400}
+  .chapter h4{font-family:var(--sans);font-weight:600;font-size:.95rem;color:var(--cream);
+    letter-spacing:.04em;text-transform:uppercase;margin:22px 0 8px}
+
+  .chapter ul{margin:6px 0 18px;padding-left:0;list-style:none;max-width:720px}
+  .chapter ul li{position:relative;padding:5px 0 5px 24px;color:var(--moon);line-height:1.65}
+  .chapter ul li::before{content:"✦";position:absolute;left:2px;top:6px;color:var(--c);font-size:.8rem;opacity:.75}
+  .chapter ul.dashed li::before{content:"—";font-family:var(--serif);font-style:italic;font-size:1rem;top:3px}
+
+  /* callout — colored stripe on the left */
+  .callout{margin:18px 0;padding:16px 22px 16px 24px;border-radius:12px;border:1px solid var(--edge);
+    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));
+    max-width:740px;position:relative}
+  .callout::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--c)}
+  .callout .clab{font-family:var(--hand);font-size:1.15rem;color:var(--c);margin-bottom:4px;display:block}
+  .callout p{color:var(--moon);line-height:1.65}
+  .callout p:last-child{margin-bottom:0}
+
+  /* heads-up — like a sticky note */
+  .heads-up{margin:22px 0;padding:18px 24px;border-radius:6px;max-width:740px;position:relative;
+    background:linear-gradient(180deg,rgba(242,160,196,.12),rgba(242,160,196,.04));
+    border:1px solid rgba(242,160,196,.28);transform:rotate(-.5deg)}
+  .heads-up::before{content:"";position:absolute;top:-9px;left:24px;width:50px;height:16px;
+    background:rgba(255,255,255,.14);border-radius:2px;transform:rotate(2deg)}
+  .heads-up .label{font-family:var(--hand);font-size:1.3rem;color:var(--c-tips);display:block;margin-bottom:4px}
+  .heads-up p:last-child{margin-bottom:0}
+
+  /* example block */
+  .example{margin:10px 0 16px;padding:14px 20px;border-radius:11px;background:rgba(255,255,255,.025);
+    border:1px solid var(--edge-soft);max-width:720px}
+  .example .elab{display:inline-block;font-family:var(--sans);font-weight:700;font-size:.68rem;text-transform:uppercase;
+    letter-spacing:.18em;padding:3px 10px;border-radius:6px;margin-bottom:9px}
+  .example .elab.good{background:rgba(116,224,207,.13);color:#9bebd9;border:1px solid rgba(116,224,207,.32)}
+  .example .elab.bad{background:rgba(242,160,196,.13);color:#f5b6d0;border:1px solid rgba(242,160,196,.32)}
+  .example .elab.ex{background:rgba(232,201,138,.13);color:var(--gold);border:1px solid rgba(232,201,138,.32)}
+  .example .etext{font-family:var(--serif);font-style:italic;color:var(--cream);font-size:1.02rem;line-height:1.55}
+  .example .ecode{font-family:ui-monospace,SF Mono,Consolas,monospace;font-size:.86rem;color:var(--moon);
+    background:rgba(0,0,0,.28);padding:10px 14px;border-radius:8px;display:block;white-space:pre-wrap;line-height:1.6}
+
+  /* good/bad two-up */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0 18px;max-width:740px}
+  @media(max-width:640px){.compare{grid-template-columns:1fr}}
+
+  /* details (the doc's "overlay tabs" become expandable peeks) */
+  .peek{margin:18px 0;border:1px solid var(--edge);border-radius:13px;background:rgba(255,255,255,.025);
+    max-width:760px;overflow:hidden}
+  .peek summary{padding:14px 20px;cursor:pointer;font-family:var(--sans);font-weight:600;color:var(--cream);
+    display:flex;align-items:center;gap:12px;list-style:none;font-size:.97rem;transition:background .2s}
+  .peek summary::-webkit-details-marker{display:none}
+  .peek summary::before{content:"+";font-family:var(--serif);font-size:1.3rem;color:var(--c);
+    width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:rgba(255,255,255,.05);
+    transition:transform .25s, background .25s;flex:none;line-height:1}
+  .peek[open] summary::before{content:"−";background:var(--c);color:var(--ink)}
+  .peek summary:hover{background:rgba(255,255,255,.035)}
+  .peek summary .ptag{font-family:var(--hand);font-size:1.05rem;color:var(--muted);margin-left:auto;font-weight:400}
+  .peek .peek-body{padding:4px 22px 20px}
+  .peek .peek-body > *:last-child{margin-bottom:0}
+  .peek .peek-body p{color:var(--moon);line-height:1.7;margin-bottom:12px}
+  .peek .peek-body ul{margin:6px 0 14px}
+
+  /* prose styles grid */
+  .prose-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:16px 0;max-width:920px}
+  .prose-card{padding:18px 20px;border-radius:13px;background:var(--card);border:1px solid var(--edge);
+    transition:border-color .25s,transform .25s}
+  .prose-card:hover{border-color:var(--c-tips);transform:translateY(-3px)}
+  .prose-card .pname{font-family:var(--serif);font-weight:500;font-size:1.1rem;color:var(--c-tips);margin-bottom:6px}
+  .prose-card .pdesc{font-size:.88rem;color:var(--muted);margin-bottom:11px;line-height:1.55}
+  .prose-card .pex{font-family:var(--serif);font-style:italic;font-size:.94rem;color:var(--cream);
+    padding-top:11px;border-top:1px dashed var(--edge-soft);line-height:1.55}
+
+  /* glossary */
+  .glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:14px 0;max-width:920px}
+  .term{padding:16px 18px;border-radius:12px;background:var(--card);border:1px solid var(--edge);
+    border-left:3px solid var(--c-gloss)}
+  .term dt{font-family:var(--serif);font-weight:600;font-size:1.05rem;color:var(--cream);margin-bottom:5px}
+  .term dd{font-size:.92rem;color:var(--muted);line-height:1.55}
+
+  /* setting cards (advanced settings) */
+  .setting{margin:14px 0;padding:18px 22px;border-radius:13px;background:var(--card);border:1px solid var(--edge);
+    border-left:3px solid var(--c-faq);max-width:760px}
+  .setting h4{font-family:var(--serif);font-weight:500;font-size:1.15rem;color:var(--cream);
+    text-transform:none;letter-spacing:0;margin:0 0 6px}
+  .setting h4 .num{font-family:var(--hand);font-size:1rem;color:var(--gold);margin-left:8px;font-weight:400}
+  .setting p{color:var(--muted);margin-bottom:0;line-height:1.65;font-size:.94rem}
+
+  /* ===== mobile ===== */
+  .backdrop{display:none}
+  @media(max-width:900px){
+    .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .3s ease;
+      box-shadow:30px 0 80px rgba(0,0,0,.6)}
+    body.nav-open .sidebar{transform:translateX(0)}
+    .backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;
+      transition:opacity .3s;z-index:35}
+    body.nav-open .backdrop{opacity:1;visibility:visible}
+    .topbar{display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:30;
+      padding:14px 18px;backdrop-filter:blur(12px);background:rgba(2,2,12,.7);border-bottom:1px solid var(--edge-soft)}
+    .topbar .burger{width:42px;height:42px;border-radius:11px;border:1px solid var(--edge);background:rgba(255,255,255,.04);
+      display:grid;place-items:center;cursor:pointer}
+    .topbar .burger svg{width:20px;height:20px;stroke:var(--cream);stroke-width:2}
+    .topbar b{font-family:var(--serif);font-weight:500;color:var(--cream);font-size:1rem}
+    main{padding-left:20px;padding-right:20px}
+  }
+</style>
+</head>
+<body>
+  <div class="sky"></div>
+  <div class="stars" id="stars"></div>
+  <div class="grain"></div>
+  <div class="backdrop" id="backdrop"></div>
+
+  <div class="layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <a class="side-brand" href="#top">
+        <span class="orb"></span>
+        <span><b>The Dreamjourney Guide</b><span>by Eurielle &amp; Chunley</span></span>
+      </a>
+
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="search" type="text" placeholder="Search the whole guide…" autocomplete="off">
+      </div>
+
+      <nav id="nav">
+        <div class="navgroup">
+          <button class="grouphead"><span class="dot" style="--c:var(--c-start)"></span>Start Here<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="groupwrap"><ul class="grouplist">
+            <li><a class="active" href="#top">Welcome <span class="tag">you are here</span></a></li>
+            <li><a href="#prose-styles">Prose styles</a></li>
+          </ul></div>
+        </div>
+
+        <div class="navgroup">
+          <button class="grouphead"><span class="dot" style="--c:var(--c-bots)"></span>Character Bots<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="groupwrap"><ul class="grouplist">
+            <li><a href="#persona">The Persona</a></li>
+            <li><a href="#open-questions">Open-ended questions</a></li>
+            <li><a href="#details">Details</a></li>
+            <li><a href="#first-message">The First Message</a></li>
+            <li><a href="#context">Context</a></li>
+            <li><a href="#authors-comment">Author's Comment</a></li>
+            <li><a href="#scenes">Scenes</a></li>
+          </ul></div>
+        </div>
+
+        <div class="navgroup">
+          <button class="grouphead"><span class="dot" style="--c:var(--c-bots)"></span>Scenario Bots<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="groupwrap"><ul class="grouplist">
+            <li><a href="#scenario-bots">What's different</a></li>
+            <li><a href="#scenario-instructions">Instructions</a></li>
+            <li><a href="#scenario-details">Details</a></li>
+          </ul></div>
+        </div>
+
+        <div class="navgroup">
+          <button class="grouphead"><span class="dot" style="--c:var(--c-lore)"></span>Lorebooks<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="groupwrap"><ul class="grouplist">
+            <li><a href="#lorebooks">What is a lorebook?</a></li>
+            <li><a href="#trigger-words">Trigger words</a></li>
+            <li><a href="#context-flooding">Avoiding flooding</a></li>
+          </ul></div>
+        </div>
+
+        <div class="navgroup">
+          <button class="grouphead"><span class="dot" style="--c:var(--c-tips)"></span>Settings<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="groupwrap"><ul class="grouplist">
+            <li><a href="#system-prompts">System prompts</a></li>
+            <li><a href="#advanced-settings">Advanced settings</a></li>
+          </ul></div>
+        </div>
+
+        <div class="navgroup">
+          <button class="grouphead"><span class="dot" style="--c:var(--c-faq)"></span>Reference<svg class="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="groupwrap"><ul class="grouplist">
+            <li><a href="#glossary">Glossary</a></li>
+          </ul></div>
+        </div>
+
+        <p class="nohit" id="nohit">Hmm, nothing matches that yet — try another word?</p>
+      </nav>
+
+      <p class="side-foot">written with a lot of <span class="heart">&#9829;</span><br>(and too much coffee)</p>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <div style="flex:1;min-width:0">
+      <div class="topbar">
+        <button class="burger" id="burger" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <b>The Dreamjourney Guide</b>
+      </div>
+
+      <main id="top">
+        <section class="welcome">
+          <span class="hi fade d1">hey — come on in :)</span>
+          <h1 class="fade d2">Everything we know about <em>Dreamjourney</em>, in one cozy place.</h1>
+          <p class="fade d3">We're Eurielle &amp; Chunley, and we got tired of answering the same questions in DMs — so we wrote it all down. <span class="soft">No corporate fluff, no gatekeeping, no "well actually." Just two friends oversharing everything we've figured out. Poke around, get a little lost, and go build something wonderfully weird.</span></p>
+          <div class="stickynote fade d4">
+            <svg class="arrow" viewBox="0 0 40 24"><path d="M2 18C10 18 14 4 24 6c6 1.2 8 6 11 6"/><path d="M30 6l5 6-7 2"/></svg>
+            brand new? start with <a href="#persona">the Persona</a>
+          </div>
+        </section>
+
+        <div class="seclabel">
+          <h2>Where do you want to start?</h2>
+          <span class="scrawl">pick a door —</span>
+          <span class="ln"></span>
+        </div>
+
+        <div class="tabs">
+          <a class="tab" href="#persona" style="--c:var(--c-bots)">
+            <span class="lab"><span class="pin"></span>Character Bots</span>
+            <h3>Make someone up</h3>
+            <p>Give them a voice, a vibe, a whole little soul. Everything from blank page to "wait, they feel real."</p>
+            <div class="count">7 chapters</div>
+          </a>
+          <a class="tab" href="#scenario-bots" style="--c:var(--c-bots)">
+            <span class="lab"><span class="pin"></span>Scenario Bots</span>
+            <h3>Build a world</h3>
+            <p>When the story matters more than any one character. Worlds, settings, situations to live inside.</p>
+            <div class="count">3 chapters</div>
+          </a>
+          <a class="tab" href="#prose-styles" style="--c:var(--c-tips)">
+            <span class="lab"><span class="pin"></span>Prose &amp; Style</span>
+            <h3>How it sounds</h3>
+            <p>Purple, gritty, staccato — make your bot write the way you want, not whatever the LLM defaults to.</p>
+            <div class="count">7 styles</div>
+          </a>
+          <a class="tab" href="#lorebooks" style="--c:var(--c-lore)">
+            <span class="lab"><span class="pin"></span>Lorebooks</span>
+            <h3>Worlds that remember</h3>
+            <p>Teach your story to keep its own secrets. Entries, keys, triggers — demystified, no flooding.</p>
+            <div class="count">3 chapters</div>
+          </a>
+          <a class="tab" href="#system-prompts" style="--c:var(--c-faq)">
+            <span class="lab"><span class="pin"></span>Settings</span>
+            <h3>The dials &amp; knobs</h3>
+            <p>System prompts, temperature, min-p, max tokens — what those scary numbers actually do.</p>
+            <div class="count">2 chapters</div>
+          </a>
+          <a class="tab" href="#glossary" style="--c:var(--c-gloss)">
+            <span class="lab"><span class="pin"></span>Glossary</span>
+            <h3>Decode the lingo</h3>
+            <p>Tokens? Cascade? Guts? Every confusing word, explained like a normal person would.</p>
+            <div class="count">A–Z</div>
+          </a>
+        </div>
+
+        <div class="seclabel">
+          <h2>Fresh out the oven</h2>
+          <span class="scrawl">recently added —</span>
+          <span class="ln"></span>
+        </div>
+        <div class="fresh">
+          <a href="#trigger-words"><span class="dot" style="--c:var(--c-lore)"></span><span class="ftitle">Trigger words without the flooding</span><span class="new">new!</span><span class="fmeta">Lorebooks</span></a>
+          <a href="#prose-styles"><span class="dot" style="--c:var(--c-tips)"></span><span class="ftitle">All seven prose styles, with examples</span><span class="fmeta">Style</span></a>
+          <a href="#first-message"><span class="dot" style="--c:var(--c-bots)"></span><span class="ftitle">Writing first messages that set the tone</span><span class="fmeta">Character Bots</span></a>
+          <a href="#advanced-settings"><span class="dot" style="--c:var(--c-faq)"></span><span class="ftitle">What do those scary numbers actually do?</span><span class="fmeta">Settings</span></a>
+        </div>
+
+        <div class="seclabel">
+          <h2>Who's writing this?</h2>
+          <span class="scrawl">hi, it's us —</span>
+          <span class="ln"></span>
+        </div>
+        <div class="guides">
+          <div class="guide">
+            <div class="avatar av-e">E</div>
+            <div>
+              <h4>Eurielle</h4>
+              <div class="sig">~ probably building a bot right now</div>
+              <p>[ Your bio goes here — who you are, what you love to make, the chaos you bring. Make it sound like you. ]</p>
+            </div>
+          </div>
+          <div class="guide">
+            <div class="avatar av-c">C</div>
+            <div>
+              <h4>Chunley</h4>
+              <div class="sig">~ lorebook enthusiast, allegedly</div>
+              <p>[ Chunley's bio goes here — your specialty, a fun fact, the thing you'll never shut up about. ]</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ CHAPTER CONTENT ============ -->
+
+        <!-- Prose styles -->
+        <section class="chapter first" id="prose-styles" style="--c:var(--c-tips)">
+          <div class="ch-head">
+            <h2>How your bot <em>sounds</em></h2>
+            <span class="scrawl">prose styles —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Prose is just a fancy word for normal writing — how a character talks, narrates, or describes things in sentences and paragraphs. The good news? <strong>You can absolutely tell a bot how to write.</strong> Just describe the prose style you want in its guts (the persona/instructions) and watch the whole vibe shift.</p>
+
+          <h3>The seven flavors <span class="accent">— pick your poison</span></h3>
+          <div class="prose-grid">
+            <div class="prose-card">
+              <div class="pname">Purple</div>
+              <div class="pdesc">Very detailed and dramatic. Lots of description and emotion.</div>
+              <div class="pex">"The storm clawed against the windows as his voice dropped to a dangerous whisper."</div>
+            </div>
+            <div class="prose-card">
+              <div class="pname">Minimalist</div>
+              <div class="pdesc">Clean and simple. Fewer details. Straight to the point.</div>
+              <div class="pex">"He shut the door and sat down. 'We need to talk.'"</div>
+            </div>
+            <div class="prose-card">
+              <div class="pname">Poetic</div>
+              <div class="pdesc">Artistic and lyrical. Focuses on rhythm, imagery, and emotion.</div>
+              <div class="pex">"The rain sang against the glass like a mourning hymn."</div>
+            </div>
+            <div class="prose-card">
+              <div class="pname">Gritty</div>
+              <div class="pdesc">Harsh, raw, realistic. Often used for crime, horror, or dark fantasy.</div>
+              <div class="pex">"Smoke burned his lungs. Blood dried on his knuckles."</div>
+            </div>
+            <div class="prose-card">
+              <div class="pname">Cinematic</div>
+              <div class="pdesc">Feels like a movie scene. Strong visuals and dramatic pacing.</div>
+              <div class="pex">"Neon lights reflected off the wet pavement as the city buzzed below."</div>
+            </div>
+            <div class="prose-card">
+              <div class="pname">Flowery</div>
+              <div class="pdesc">Extremely decorative — heavy on adjectives and embellishment.</div>
+              <div class="pex">"Golden sunlight cascaded through the delicate lace curtains."</div>
+            </div>
+            <div class="prose-card">
+              <div class="pname">Staccato</div>
+              <div class="pdesc">Very short, punchy sentences. Fast pacing. Strong impact.</div>
+              <div class="pex">"He looked up. Saw her. Froze."</div>
+            </div>
+          </div>
+
+          <details class="peek" style="--c:var(--c-tips)">
+            <summary>Oh my god — I hate Staccato. How do I make it stop?<span class="ptag">help —</span></summary>
+            <div class="peek-body">
+              <p>If it's <strong>your bot</strong>, you can simply add a little prompt into your persona or author's note:</p>
+              <div class="example"><span class="elab ex">try this</span>
+                <code class="ecode">Prose: Write in standard paragraphs using complete sentences.</code>
+              </div>
+              <p>If it's <strong>someone else's bot</strong>, you'll have to rely on OOC notes and your system prompt. But fair warning: if the creator has already prompted hard for a specific prose style, you might be fighting it the entire chat.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ====== CHARACTER BOTS ====== -->
+
+        <!-- Persona -->
+        <section class="chapter" id="persona" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>The <em>Persona</em></h2>
+            <span class="scrawl">the brain —</span>
+            <span class="ln"></span>
+          </div>
+          <p>This is the brain of your character. The Persona section is where you define what makes them <em>them</em>. The bot will pull from this constantly, and things written here get referenced over and over again — so only include stuff that's <strong>permanent or core</strong> to who they are.</p>
+
+          <div class="compare">
+            <div class="callout" style="--c:#9bebd9">
+              <span class="clab">good to include</span>
+              <ul>
+                <li>Personality traits</li>
+                <li>Important beliefs</li>
+                <li>Moral alignment</li>
+                <li>Speech patterns</li>
+              </ul>
+            </div>
+            <div class="callout" style="--c:#f5b6d0">
+              <span class="clab">usually skip</span>
+              <ul>
+                <li>Current emotions</li>
+                <li>Temporary outfits / clothes</li>
+                <li>Exact scene details</li>
+                <li>Other characters (unless extremely important)</li>
+                <li>Direct references to <code>{{user}}</code></li>
+              </ul>
+            </div>
+          </div>
+
+          <p>Why does this matter? Because the AI treats the Persona like a <strong>constant reference point</strong>. Drop temporary info here and the bot will keep dragging it back into scenes over and over.</p>
+
+          <div class="example"><span class="elab bad">cautionary tale</span>
+            <p class="etext">If you mention a leather jacket here, the bot may put them in that jacket constantly — even if you set it on fire and throw it off a cliff. It'll be back.</p>
+          </div>
+          <p>If you mention another character here, the bot may keep dragging them into scenes. If you say they're angry here, they may stay angry <em>forever</em>. This section does a lot of the heavy lifting, so keep it clean and focused.</p>
+
+          <div class="heads-up" style="--c:var(--c-tips)">
+            <span class="label">the golden rule</span>
+            <p>Keep this section to roughly <strong>6–7 sentences max</strong>. Too much personality info actually makes the bot <em>less</em> consistent — the more overloaded it gets, the harder it is for the AI to figure out what matters most.</p>
+          </div>
+
+          <h3>The three big things</h3>
+          <ul class="dashed">
+            <li>Use plain language</li>
+            <li>Write naturally</li>
+            <li>Be clear, and leave little room for misinterpretation</li>
+          </ul>
+
+          <p class="soft">Don't be afraid to ask Schmoo or ChatGPT to read your Persona and tell you how they think the character would behave. It's a great gut-check — if the AI describes them differently than you intended, your core may be unclear.</p>
+
+          <details class="peek" style="--c:var(--c-bots)">
+            <summary>Chunley's example Persona<span class="ptag">peek —</span></summary>
+            <div class="peek-body">
+              <p class="soft"><em>[ Drop Chunley's example persona here. ]</em></p>
+            </div>
+          </details>
+          <details class="peek" style="--c:var(--c-bots)">
+            <summary>Eurielle's example Persona<span class="ptag">peek —</span></summary>
+            <div class="peek-body">
+              <p class="soft"><em>[ Drop Eurielle's example persona here. ]</em></p>
+            </div>
+          </details>
+        </section>
+
+        <!-- Open-ended questions -->
+        <section class="chapter" id="open-questions" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>Open-ended <em>questions</em></h2>
+            <span class="scrawl">give it room to think —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Adding just 2–3 open-ended questions to your Persona, Instructions, or Details can seriously improve your bot's consistency. Why? They nudge the LLM to actually <em>think</em> about the character instead of mechanically copying traits — which reduces moments where the bot suddenly feels out of character or starts sounding like a generic AI chatbot.</p>
+
+          <h3>Examples that work</h3>
+          <ul>
+            <li>How does Bob react when he realizes he's losing control of a situation?</li>
+            <li>What kinds of people tend to frustrate Bob the fastest, and why?</li>
+            <li>In what small ways does Bob unintentionally reveal that he's lonely?</li>
+            <li>How would Bob justify doing something morally wrong if he believed it was necessary?</li>
+            <li>How does the world treat people born with magic, and how has that shaped Bob's view of others?</li>
+          </ul>
+
+          <div class="heads-up" style="--c:var(--c-tips)">
+            <span class="label">less is more</span>
+            <p>You do <strong>not</strong> need a lot of these. Usually <strong>2–3 strong questions</strong> works way better than adding twenty random ones. Too many can confuse the model and make the character feel unfocused. Keep them meaningful and relevant — they carry more weight when your Persona is short (remember the 6–7 sentence rule).</p>
+          </div>
+        </section>
+
+        <!-- Details -->
+        <section class="chapter" id="details" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2><em>Details</em></h2>
+            <span class="scrawl">supporting cast —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Not as critical as the Persona, but still matters a lot. Think of Details as the place for <strong>supporting info</strong> that fleshes the character out.</p>
+
+          <h3>Stuff that fits here</h3>
+          <ul>
+            <li>Appearance</li>
+            <li>Age</li>
+            <li>Job</li>
+            <li>Other characters (family, friends, etc.)</li>
+            <li>Backstory and important memories</li>
+            <li>Speech style and nuances</li>
+            <li>Habits</li>
+          </ul>
+
+          <h3>Avoid exact outfits</h3>
+          <p>If you say the character is wearing a black leather jacket, the AI may start acting like they wear that jacket constantly. Describe their <em>general</em> style instead.</p>
+
+          <div class="compare">
+            <div class="example"><span class="elab good">better</span>
+              <p class="etext">He dresses sharply and prefers dark clothing.</p>
+            </div>
+            <div class="example"><span class="elab bad">worse</span>
+              <p class="etext">He's wearing a black leather jacket, ripped jeans, and combat boots.</p>
+            </div>
+          </div>
+
+          <p>You can have a little more fun in this section — fill it up if you want, but keep in mind: <strong>less is more</strong>. If you max it out, the LLM will almost definitely skip over and miss things occasionally.</p>
+          <p>Don't repeat information you already wrote in the Persona unless it's <em>extremely</em> important. Repetition muddies the bot and wastes context space.</p>
+        </section>
+
+        <!-- First Message -->
+        <section class="chapter" id="first-message" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>The <em>First Message</em></h2>
+            <span class="scrawl">sets the whole tone —</span>
+            <span class="ln"></span>
+          </div>
+          <p>One of the most important parts of the bot. The first message <strong>teaches the AI what the roleplay should feel like</strong>. Mood, pacing, writing style, character behavior, overall vibe — all heavily influenced by this section.</p>
+
+          <p>This is also the one place where longer writing is usually a good thing. Add detail: where the character is, what just happened before the scene started, what mood they're in, how they speak, what they're doing, what the environment feels like. The clearer the scene, the easier it is for the AI to stay consistent.</p>
+
+          <div class="callout" style="--c:var(--c-bots)">
+            <span class="clab">remember</span>
+            <p>The AI usually <strong>copies the style</strong> of the first message. Long and descriptive opening? Replies will trend longer and more descriptive. Short and fast-paced? It'll keep writing that way. If you use italics for actions, expect italics throughout. Dramatic short paragraphs? Same.</p>
+          </div>
+
+          <h3>Don't write for the user <span class="accent">— biggest trap</span></h3>
+          <p>If you tell the user exactly what they say, feel, or do, the AI becomes more likely to keep controlling them later in the roleplay.</p>
+
+          <div class="compare">
+            <div class="example"><span class="elab bad">controlling</span>
+              <p class="etext">{{user}} walked into the room confidently and flirted with him.</p>
+            </div>
+            <div class="example"><span class="elab good">leaves room</span>
+              <p class="etext">The door opened, drawing his attention toward the person standing in the doorway.</p>
+            </div>
+          </div>
+          <p>The second version lets the user decide who they are and how they act — and more importantly, it keeps the LLM from writing for <code>{{user}}</code> in future replies.</p>
+
+          <h3>A quick word on POV</h3>
+          <ul class="dashed">
+            <li><strong>AnyPOV</strong> — gender-neutral writing; anyone can use the bot</li>
+            <li><strong>FemPOV</strong> — user is written as female</li>
+            <li><strong>MalePOV</strong> — user is written as male</li>
+          </ul>
+        </section>
+
+        <!-- Context -->
+        <section class="chapter" id="context" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2><em>Context</em></h2>
+            <span class="scrawl">short-term memory —</span>
+            <span class="ln"></span>
+          </div>
+          <p>The Context field is for <strong>temporary information</strong>. Think of it like short-term instructions for the AI that fall off after only <strong>5–10 messages</strong>. It's the right place to put things you want the bot to remember or focus on at the start of a roleplay.</p>
+
+          <h3>Use it for</h3>
+          <ul>
+            <li>Temporary behavior</li>
+            <li>Scene setup</li>
+            <li>Short-term mood changes</li>
+            <li>Current situations</li>
+            <li>Activating lorebook entries immediately</li>
+          </ul>
+
+          <div class="example"><span class="elab ex">example</span>
+            <code class="ecode">{{char}} is trying to hide an injury.</code>
+          </div>
+          <div class="example"><span class="elab ex">or</span>
+            <code class="ecode">{{char}} is in an aggressive mood after having a terrible day.</code>
+          </div>
+
+          <div class="heads-up" style="--c:var(--c-tips)">
+            <span class="label">not for permanent stuff</span>
+            <p>Unlike the Persona, this field is <strong>NOT</strong> meant for permanent character traits. Think of it as <em>"what is happening right now?"</em> rather than <em>"who is this character at their core?"</em></p>
+          </div>
+        </section>
+
+        <!-- Author's Comment -->
+        <section class="chapter" id="authors-comment" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>Author's <em>Comment</em></h2>
+            <span class="scrawl">the storefront —</span>
+            <span class="ln"></span>
+          </div>
+          <p>This is the bot's public info page — where users learn about the character, setting, and roleplay before they start chatting. Use it to show off your character and get creative. Pretty, informative, dramatic, aesthetic, immersive — whatever fits your bot best.</p>
+
+          <p>Explain the world, the important relationships, the character's vibe, their story, or anything else you want users to know before stepping in. The section supports <strong>Markdown formatting</strong>, so you can really customize it: images, bold, italics, headers, bullets, emojis, links, even clickable images. A lot of creators use this space to promote collaborations, link bots into collections or universes, share playlists, or just make their profile stand out.</p>
+
+          <div class="callout" style="--c:#f5b6d0">
+            <span class="clab">important caveat</span>
+            <p>This box carries <strong>absolutely no weight</strong> when it comes to how the AI will behave. It's purely for human readers — don't put behavioral instructions here expecting them to stick.</p>
+          </div>
+
+          <details class="peek" style="--c:var(--c-bots)">
+            <summary>Need a Markdown cheatsheet?<span class="ptag">link —</span></summary>
+            <div class="peek-body">
+              <p class="soft"><em>[ Drop your favorite markdown cheatsheet link here. ]</em></p>
+            </div>
+          </details>
+        </section>
+
+        <!-- Scenes -->
+        <section class="chapter" id="scenes" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2><em>Scenes</em></h2>
+            <span class="scrawl">alt openings —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Scenes are basically <strong>alternate first messages</strong>. They let you create different roleplay scenarios without needing to make entirely separate bots.</p>
+
+          <p>Since the first message heavily affects tone, behavior, pacing, and writing style, scenes are a great way to explore different sides of a character — or completely different story setups. Each scene has its own first message and can have a totally different vibe from the default. One scene could be romantic, another enemies-to-lovers, another horror, another an AU — all while keeping your character intact.</p>
+
+          <h3>Scene Context vs Scene Instructions</h3>
+          <div class="callout" style="--c:var(--c-bots)">
+            <span class="clab">scene context</span>
+            <p>Works just like the normal Context field — mostly for temporary instructions, current situations, moods, or short-term behaviors. Usually fades after 5–10 messages.</p>
+          </div>
+          <div class="callout" style="--c:var(--c-lore)">
+            <span class="clab">scene instructions</span>
+            <p>Much stronger. Can heavily affect tone, behavior, writing style, and even personality during that specific scene. Not as powerful as Author's Notes, but still carries a lot of weight — so use it <strong>carefully</strong> instead of stuffing it full of information.</p>
+          </div>
+        </section>
+
+        <!-- ====== SCENARIO BOTS ====== -->
+
+        <!-- Scenario Bots intro -->
+        <section class="chapter" id="scenario-bots" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>Scenario <em>Bots</em></h2>
+            <span class="scrawl">a different beast —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Scenario bots aren't <em>that</em> different from character bots, but they can feel more intimidating at first because they're written a little differently.</p>
+
+          <div class="compare">
+            <div class="callout" style="--c:var(--c-bots)">
+              <span class="clab">character bot</span>
+              <p>Built around one specific person. The roleplay focuses on that character, their personality, their relationship with the user, and how they react to what's happening.</p>
+            </div>
+            <div class="callout" style="--c:var(--c-lore)">
+              <span class="clab">scenario bot</span>
+              <p>Built around the situation, setting, or world. The user has more room to explore, interact with different people, and move through the story without one character constantly pulling the scene back to themselves.</p>
+            </div>
+          </div>
+
+          <p>You can absolutely turn a character bot into a scenario bot. The main difference is <strong>focus</strong>. Character bot: the character is the center. Scenario bot: the world or situation is the center.</p>
+
+          <div class="example"><span class="elab ex">to illustrate</span>
+            <p class="etext">A character bot might be about talking to a vampire prince. A scenario bot might be about surviving in a kingdom secretly ruled by vampires — the prince can still exist, but the entire story doesn't have to revolve around him every single message.</p>
+          </div>
+        </section>
+
+        <!-- Scenario Instructions -->
+        <section class="chapter" id="scenario-instructions" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>Scenario <em>Instructions</em></h2>
+            <span class="scrawl">think like a director —</span>
+            <span class="ln"></span>
+          </div>
+          <p>The easiest way to write instructions for a scenario bot is to <strong>think like a director</strong>. You're not just describing one character anymore — you're telling the AI what kind of world this is and how it should behave.</p>
+
+          <h3>Questions to ask yourself</h3>
+          <ul>
+            <li>Is the world peaceful, dangerous, magical, modern, broken, strict, romantic, haunted, or politically tense?</li>
+            <li>Are people kind to strangers, or do they distrust outsiders?</li>
+            <li>Is the world bright and hopeful, or dark and survival-based?</li>
+          </ul>
+
+          <p>This section works a lot like the Persona box for a character bot. It carries a lot of weight, and the AI will reference it often — so only put things here that you actually want showing up frequently.</p>
+
+          <div class="example"><span class="elab ex">consequence</span>
+            <p class="etext">If you say it's storming, the AI may keep bringing up rain, thunder, wet streets, and dark skies over and over. If you mention the kingdom is at war, expect war to affect the way people talk, travel, trade, and react to strangers.</p>
+          </div>
+
+          <p>Focus on the <strong>core idea</strong> of the world, not every tiny detail. The AI needs to understand the "main rule" of the setting first. Details can always be added later in lorebooks, scenes, or context boxes.</p>
+        </section>
+
+        <!-- Scenario Details -->
+        <section class="chapter" id="scenario-details" style="--c:var(--c-bots)">
+          <div class="ch-head">
+            <h2>Scenario <em>Details</em></h2>
+            <span class="scrawl">worldbuilding extras —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Just like with character bots, the Details section is where you put extra information that supports the main instructions. A good place for things the AI should know, but that don't need to be the main focus every single message.</p>
+
+          <h3>Good things to include</h3>
+          <ul>
+            <li>Important characters</li>
+            <li>Towns, kingdoms, factions</li>
+            <li>Political groups, points of interest</li>
+            <li>Religions, guilds, species</li>
+            <li>Magic systems, technology</li>
+            <li>Social rules</li>
+          </ul>
+
+          <p>Keep it organized and easy to understand. Don't dump every tiny fact here. If the info is too long or only matters sometimes, it'll work better as a <a href="#lorebooks" style="color:var(--c-lore);text-decoration:underline">lorebook entry</a>.</p>
+
+          <p>Try not to repeat what you wrote in the main Scenario Instructions. Instructions explain the core of the world. Details should add useful supporting info around it.</p>
+
+          <div class="example"><span class="elab ex">example</span>
+            <p class="etext">If your instructions say the kingdom is divided by war, the Details section could explain the names of the two sides, what they believe, and which towns or characters belong to each.</p>
+          </div>
+
+          <p>Keep it simple. The AI does better when important information is clear instead of buried under a mountain of lore.</p>
+
+          <details class="peek" style="--c:var(--c-bots)">
+            <summary>Example of one of Eurielle's scenario bots<span class="ptag">peek —</span></summary>
+            <div class="peek-body">
+              <p class="soft"><em>[ Drop one of Eurielle's scenario bot examples here. ]</em></p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ====== LOREBOOKS ====== -->
+
+        <!-- Lorebooks intro -->
+        <section class="chapter" id="lorebooks" style="--c:var(--c-lore)">
+          <div class="ch-head">
+            <h2>What is a <em>Lorebook</em>?</h2>
+            <span class="scrawl">long-term memory —</span>
+            <span class="ln"></span>
+          </div>
+          <p>A lorebook is where you store extra information the bot doesn't need <em>all</em> the time. Think of it like a storage box for worldbuilding, side characters, locations, factions, history, or important rules. Instead of stuffing everything into the bot's main prompt, you can put longer or more specific info in the lorebook.</p>
+
+          <p>Lorebooks work with <strong>trigger words</strong>. When the user or bot says a trigger word, the matching entry gets pulled into the roleplay.</p>
+
+          <div class="example"><span class="elab ex">example</span>
+            <p class="etext">If you have a lorebook entry for "Velaris," you might use trigger words like: <strong>Velaris</strong> or <strong>City of Starlight</strong>. Or, if your character has an entry for their mother Carol, your trigger words might be: <strong>Carol</strong>, <strong>mother</strong>, and <strong>mom</strong>.</p>
+          </div>
+
+          <details class="peek" style="--c:var(--c-lore)">
+            <summary>My lorebook won't let me save!<span class="ptag">troubleshoot —</span></summary>
+            <div class="peek-body">
+              <p>Check these things first:</p>
+              <ul>
+                <li>Do <strong>all</strong> of your entries have trigger words, a category type, an entry name, and at least something in the description?</li>
+                <li>Are you maxing out all your entries? Try shortening them — keep each one under about <strong>800 characters</strong>.</li>
+                <li>Did you import a JSON file? Sometimes it bugs out. Try again, or add each entry by hand and <strong>save frequently</strong>.</li>
+              </ul>
+            </div>
+          </details>
+        </section>
+
+        <!-- Trigger words -->
+        <section class="chapter" id="trigger-words" style="--c:var(--c-lore)">
+          <div class="ch-head">
+            <h2>Trigger <em>Words</em></h2>
+            <span class="scrawl">be specific —</span>
+            <span class="ln"></span>
+          </div>
+          <p>The most important rule with trigger words: <strong>don't use the same trigger word for a bunch of different entries</strong>. If five lorebook entries all share one trigger word, the bot may try to pull all five at once. That floods the context and eats up way too much space.</p>
+
+          <p>When context gets too crowded, the LLM has a harder time knowing what matters. It may start ignoring parts of the lorebook, mixing details together, or acting like it didn't pull the entry at all.</p>
+
+          <h3>Make them specific</h3>
+          <p>Instead of "Kingdom" for every kingdom-related entry, use names like <strong>Camelot</strong> or <strong>Kingdom of Camelot</strong>. For family members — if your character has multiple siblings — add a small section in the Details:</p>
+
+          <div class="example"><span class="elab ex">in the details</span>
+            <code class="ecode">Brothers: John, Carl, Bob, James
+Sisters: Caitlin, Heather, Rebecca, Samantha</code>
+          </div>
+
+          <p>Then use just their names as trigger words. Inside the description of each lorebook entry, you can reiterate: <em>"{{char}}'s older brother,"</em> etc.</p>
+        </section>
+
+        <!-- Context flooding / cascade -->
+        <section class="chapter" id="context-flooding" style="--c:var(--c-lore)">
+          <div class="ch-head">
+            <h2>Avoiding <em>Cascade</em></h2>
+            <span class="scrawl">the underscore trick —</span>
+            <span class="ln"></span>
+          </div>
+          <p>But wait — if you put trigger words inside your bot's guts (like that sibling list above), isn't that <em>also</em> pulling entries unintentionally? It absolutely can, yes! That's called <strong>cascade</strong> or <strong>context flooding</strong>, and there's a clever way around it.</p>
+
+          <h3>The underscore trick</h3>
+          <p>Adding an underscore before or after a trigger word can stop the lorebook entry from activating by accident. If you have <strong>John</strong> as a trigger word, in your details you can write:</p>
+
+          <div class="example"><span class="elab ex">try this</span>
+            <code class="ecode">_John   or   John_</code>
+          </div>
+
+          <p>This is useful when you want the bot to have access to extra information, but you don't want it to potentially trigger the lorebook entry just from being mentioned in the guts of the bot.</p>
+
+          <p>It works really well for character lists, locations, factions, hidden lore, or background information that should only appear when you specifically want it.</p>
+
+          <div class="callout" style="--c:#f5b6d0">
+            <span class="clab">tiny con</span>
+            <p>Very rarely, the LLM might refer to "John" as "_John" in a reply. A simple reroll fixes it. In my opinion the benefits outweigh the rare, minor inconvenience — but now you know it can happen.</p>
+          </div>
+        </section>
+
+        <!-- ====== SETTINGS ====== -->
+
+        <!-- System Prompts -->
+        <section class="chapter" id="system-prompts" style="--c:var(--c-faq)">
+          <div class="ch-head">
+            <h2>System <em>Prompts</em></h2>
+            <span class="scrawl">your personal dials —</span>
+            <span class="ln"></span>
+          </div>
+          <p>System Prompts are instructions <strong>you</strong> give the LLM. They only affect <em>your</em> chat — they don't change the bot for everyone else. Think of them like personal settings for the roleplay.</p>
+
+          <p>You can use them to tailor the RP to your taste: a certain prose style, a specific POV, different formatting, avoiding certain clichés or tropes or annoying LLM habits — this is where you write it down.</p>
+
+          <div class="callout" style="--c:var(--c-faq)">
+            <span class="clab">don't have one?</span>
+            <p>Check the community page on the website and search for a prompt that fits your style. Try a few, tweak them, see what works best for the models you like. Have fun and experiment.</p>
+          </div>
+
+          <details class="peek" style="--c:var(--c-faq)">
+            <summary>Thinking models and system prompts<span class="ptag">important —</span></summary>
+            <div class="peek-body">
+              <p>With thinking models, there's so much going on behind the scenes that it's commonly recommended you use the <strong>default system prompt</strong> or a <em>very, very</em> minimal custom one. Anything more elaborate can confuse the thinking model and lead to more hallucinations and errors.</p>
+            </div>
+          </details>
+        </section>
+
+        <!-- Advanced Settings -->
+        <section class="chapter" id="advanced-settings" style="--c:var(--c-faq)">
+          <div class="ch-head">
+            <h2>Advanced <em>Settings</em></h2>
+            <span class="scrawl">what are those scary numbers?! —</span>
+            <span class="ln"></span>
+          </div>
+          <p>The dials and knobs explained, plainly.</p>
+
+          <div class="setting">
+            <h4>Temperature <span class="num">creativity dial</span></h4>
+            <p>Controls the AI's creativity. <strong>Lower</strong> numbers = more logical; <strong>higher</strong> numbers = more creative, more twists and turns. For IPs and bots you want to follow the lorebook/instructions closely, lean slightly lower. I personally like mine around <strong>0.8</strong>. Others like 1 or even 1.2. Keep in mind: high temps (1.1+) might need a Min-P adjustment and can start hallucinating. If you're seeing a lot of gibberish, it's likely your temp or min-p.</p>
+          </div>
+
+          <div class="setting">
+            <h4>Repetition Penalty <span class="num">stop saying the same thing</span></h4>
+            <p>A technique used to discourage the model from producing repetitive or redundant output. It reduces the likelihood of generating tokens that have appeared recently in the generated text, which promotes more diverse and varied responses.</p>
+          </div>
+
+          <div class="setting">
+            <h4>Min-P <span class="num">probability floor</span></h4>
+            <p>Min-P sampling sets a minimum threshold for the probability of selecting a token during generation. Tokens with probabilities below this threshold are excluded — which helps maintain coherence while still allowing some randomness.</p>
+          </div>
+
+          <div class="setting">
+            <h4>Max Tokens <span class="num">reply length</span></h4>
+            <p>This controls the length of the AI's replies. I keep mine around <strong>300 tokens</strong> because I like 3–4 paragraph replies, but you can slide it up to 1500 — or type in up to 3000 — for extra long replies.</p>
+          </div>
+
+          <div class="heads-up" style="--c:var(--c-tips)">
+            <span class="label">myth-busting</span>
+            <p>No — cranking Max Tokens up to max will <strong>NOT</strong> cost more credits. Common misconception. Crank away.</p>
+          </div>
+
+          <details class="peek" style="--c:var(--c-faq)">
+            <summary>Want a deeper dive?<span class="ptag">link —</span></summary>
+            <div class="peek-body">
+              <p class="soft"><em>[ Link to DJAI's "what are these model settings?" guide here. ]</em></p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ====== GLOSSARY ====== -->
+
+        <section class="chapter" id="glossary" style="--c:var(--c-gloss)">
+          <div class="ch-head">
+            <h2>The <em>Glossary</em></h2>
+            <span class="scrawl">decode the lingo —</span>
+            <span class="ln"></span>
+          </div>
+          <p>Every confusing word, explained like a normal person would.</p>
+
+          <dl class="glossary-grid">
+            <div class="term">
+              <dt>LLM</dt>
+              <dd>Large Language Model. The AI you talk to in chat — basically the "brain" behind the bot.</dd>
+            </div>
+            <div class="term">
+              <dt>Tokens</dt>
+              <dd>Small chunks of text the AI reads and writes. A token can be a whole word, part of a word, punctuation — anything.</dd>
+            </div>
+            <div class="term">
+              <dt>Context Window</dt>
+              <dd>How much information the AI can remember at one time during a conversation. Short-term memory. (The Nexus is long-term memory.)</dd>
+            </div>
+            <div class="term">
+              <dt>Guts</dt>
+              <dd>The stuff that makes the bot act the way it does. Includes the persona and details — everything in the bot's permanent prompt.</dd>
+            </div>
+            <div class="term">
+              <dt>Prompt</dt>
+              <dd>Instructions you give the AI. The better your prompt, the better the response.</dd>
+            </div>
+            <div class="term">
+              <dt>Cascade / Context Flood</dt>
+              <dd>When too much information gets pulled into the chat at once, usually from too many lorebook entries triggering. Confuses the bot or makes it ignore important details.</dd>
+            </div>
+            <div class="term">
+              <dt>Prose</dt>
+              <dd>Normal writing — how a character talks, narrates, or describes things in sentences and paragraphs.</dd>
+            </div>
+          </dl>
+        </section>
+
+        <footer>
+          Made with <span class="heart">&#9829;</span> by Eurielle &amp; Chunley · an independent, made-by-fans guide · not affiliated with Dreamjourney
+        </footer>
+      </main>
+    </div>
+  </div>
+
+<script>
+  // stars
+  (function(){const s=document.getElementById('stars');for(let i=0;i<75;i++){const e=document.createElement('span');
+    e.className='star';const z=Math.random()*2+1;e.style.width=e.style.height=z+'px';
+    e.style.left=Math.random()*100+'%';e.style.top=Math.random()*100+'%';
+    e.style.setProperty('--d',(Math.random()*4+2.5)+'s');e.style.setProperty('--delay',(Math.random()*5)+'s');s.appendChild(e);}})();
+
+  // mobile drawer
+  const burger=document.getElementById('burger'),backdrop=document.getElementById('backdrop');
+  burger.addEventListener('click',()=>document.body.classList.add('nav-open'));
+  backdrop.addEventListener('click',()=>document.body.classList.remove('nav-open'));
+  document.querySelectorAll('.grouplist a').forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+
+  // collapsible groups
+  document.querySelectorAll('.grouphead').forEach(h=>{
+    h.addEventListener('click',()=>h.closest('.navgroup').classList.toggle('closed'));
+  });
+
+  // live search filter
+  const search=document.getElementById('search'),nohit=document.getElementById('nohit');
+  search.addEventListener('input',()=>{
+    const q=search.value.trim().toLowerCase();
+    let total=0;
+    document.querySelectorAll('.navgroup').forEach(g=>{
+      let shown=0;
+      g.querySelectorAll('.grouplist li').forEach(li=>{
+        const hit=!q||li.textContent.toLowerCase().includes(q);
+        li.style.display=hit?'':'none';if(hit)shown++;
+      });
+      g.style.display=(q&&shown===0)?'none':'';
+      if(q&&shown>0)g.classList.remove('closed');
+      total+=shown;
+    });
+    nohit.style.display=(q&&total===0)?'block':'none';
+  });
+
+  // scroll-spy: highlight whichever chapter is currently in view
+  (function(){
+    const links = document.querySelectorAll('.grouplist a[href^="#"]');
+    const map = new Map();
+    links.forEach(a => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) map.set(el, a);
+    });
+    if (!map.size) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(a => a.classList.remove('active'));
+          const a = map.get(e.target);
+          if (a) {
+            a.classList.add('active');
+            // open the group containing the active link
+            const group = a.closest('.navgroup');
+            if (group) group.classList.remove('closed');
+          }
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    map.forEach((_, el) => obs.observe(el));
+  })();
+</script>
+</body>
+</html>
